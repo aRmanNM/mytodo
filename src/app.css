@@ -12,3 +12,14 @@ Button.-primary {
 .label {
   font-size: 14pt;
 }
+
+.fab-button {
+  height: 55;
+  width: 55;
+  margin: 15;
+  background-color: floralwhite;
+  horizontal-align: right;
+  vertical-align: bottom;
+  font-size: 16;
+  color: darkgray;
+}

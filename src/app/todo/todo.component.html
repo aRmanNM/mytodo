@@ -3,12 +3,15 @@
 </ActionBar>
 
 <GridLayout>
-  <ListView [items]="todoItems" (itemTap)="toggleTodo($event)">
+  <ListView [items]="todoItems">
     <ng-template let-item="item">
-      <StackLayout>
+      <StackLayout
+        (swipe)="deleteTodo($event, item.key)"
+        (tap)="toggleTodo(item.key)"
+      >
         <Label
           class="label"
-          textWrap="true"
+          textWrap="false"
           [text]="item.title"
           textAlignment="center"
           textDecoration="{{ item.completed ? 'line-through' : '' }}"
@@ -18,3 +21,5 @@
     </ng-template>
   </ListView>
 </GridLayout>
+
+<FAB text="+" rippleColor="#f1f1f1" class="fab-button"></FAB>
