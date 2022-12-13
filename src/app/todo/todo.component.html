@@ -1,0 +1,20 @@
+<ActionBar>
+  <Label class="bar-label" text="😇" textAlignment="center"> </Label>
+</ActionBar>
+
+<GridLayout>
+  <ListView [items]="todoItems" (itemTap)="toggleTodo($event)">
+    <ng-template let-item="item">
+      <StackLayout>
+        <Label
+          class="label"
+          textWrap="true"
+          [text]="item.title"
+          textAlignment="center"
+          textDecoration="{{ item.completed ? 'line-through' : '' }}"
+        >
+        </Label>
+      </StackLayout>
+    </ng-template>
+  </ListView>
+</GridLayout>
