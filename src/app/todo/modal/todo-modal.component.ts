@@ -2,13 +2,10 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
-  OnDestroy,
   OnInit,
   Output,
   ViewChild,
-  ViewChildren,
 } from "@angular/core";
 import { Todo } from "../todo";
 
@@ -16,7 +13,7 @@ import { Todo } from "../todo";
   selector: "todo-modal",
   templateUrl: "todo-modal.component.html",
 })
-export class TodoModalComponent implements OnInit, OnDestroy {
+export class TodoModalComponent implements OnInit {
   @Input() todo: Todo;
   @Output() onSubmit = new EventEmitter<Todo>();
   @Output() onCancel = new EventEmitter<void>();
@@ -26,10 +23,6 @@ export class TodoModalComponent implements OnInit, OnDestroy {
   title: string = "";
 
   constructor() {}
-
-  ngOnDestroy(): void {
-    // console.log("modal destroyed!");
-  }
 
   ngAfterViewInit() {
     this.input.nativeElement.focus();
@@ -44,19 +37,16 @@ export class TodoModalComponent implements OnInit, OnDestroy {
   addOrEdit(): void {
     if (this.todo) {
       this.todo.title = this.title;
-      this.todo.completed = false;
-      this.onSubmit.emit(this.todo);
-      this.title = "";
-      return;
+    } else {
+      this.todo = {
+        completed: false,
+        title: this.title,
+        key: undefined,
+        createdAt: Date.now()
+      };
     }
 
-    let todo: Todo = {
-      completed: false,
-      title: this.title,
-      key: undefined,
-    };
-
-    this.onSubmit.emit(todo);
+    this.onSubmit.emit(this.todo);
     this.title = "";
   }
 

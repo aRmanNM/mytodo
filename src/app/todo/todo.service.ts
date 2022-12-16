@@ -13,41 +13,37 @@ export class TodoService {
   }
 
   getTodoItems() {
-    this._todoItems.next(this.storageService.getItems());
+    let todoItems: Todo[] = this.storageService.getAll();
+    todoItems.sort((x, y) => x.createdAt - y.createdAt);
+    this._todoItems.next(todoItems);
   }
 
-  addTodoItem(title: string) {
-    this.storageService.setItem({ completed: false, title });
-    this.getTodoItems();
-  }
-
-  removeTodoItem(key: string) {
-    this.storageService.removeItem(key);
-    this.getTodoItems();
-  }
-
-  removeAllTodoItems() {
-    this.storageService.removeAllItems();
+  addTodoItem(todo: Todo) {
+    this.storageService.set(todo);
     this.getTodoItems();
   }
 
   toggleTodo(key: string) {
-    const todoItem: Todo = this.storageService.getItem(key);
-    this.storageService.updateItem(key, {
-      completed: !todoItem.completed,
-      title: todoItem.title,
-    });
-
+    let todoItem: Todo = this.storageService.get(key);
+    todoItem.completed = !todoItem.completed;
+    this.storageService.set(todoItem);
     this.getTodoItems();
   }
 
   updateTitle(key: string, title: string) {
-    const todoItem: Todo = this.storageService.getItem(key);
-    this.storageService.updateItem(key, {
-      title: title,
-      completed: todoItem.completed,
-    });
+    let todoItem: Todo = this.storageService.get(key);
+    todoItem.title = title;
+    this.storageService.set(todoItem);
+    this.getTodoItems();
+  }
 
+  removeTodoItem(key: string) {
+    this.storageService.remove(key);
+    this.getTodoItems();
+  }
+
+  removeAllTodoItems() {
+    this.storageService.removeAll();
     this.getTodoItems();
   }
 }

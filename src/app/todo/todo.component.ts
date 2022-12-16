@@ -3,10 +3,7 @@ import {
   AndroidActivityBackPressedEventData,
   AndroidApplication,
   Application,
-  EventData,
   isAndroid,
-  ItemEventData,
-  SwipeGestureEventData,
 } from "@nativescript/core";
 import { Todo } from "./todo";
 import { registerElement } from "@nativescript/angular";
@@ -26,19 +23,55 @@ export class TodoComponent implements OnInit {
   headerEmoji: string;
   dialogOpen = false;
 
-  emojis = ["😀", "😃", "😄", "😁", "😆", "😅", "🤣", "😂", "🙂", "🙃", "😉", "😊", "😇", "😍", "🤩", "😘", "😗", "😚", "😙", "😋", "😛", "😜", "🤪", "😝", "🤑", "🤗", "🤭", "🤫", "🤔", "🤐", "🤨", "😏", "🤯", "🤠", "😎", "🤓", "🧐"]
+  emojis = [
+    "😀",
+    "😃",
+    "😄",
+    "😁",
+    "😆",
+    "😅",
+    "🤣",
+    "😂",
+    "🙂",
+    "🙃",
+    "😉",
+    "😊",
+    "😇",
+    "😍",
+    "🤩",
+    "😘",
+    "😗",
+    "😚",
+    "😙",
+    "😋",
+    "😛",
+    "😜",
+    "🤪",
+    "😝",
+    "🤑",
+    "🤗",
+    "🤭",
+    "🤫",
+    "🤔",
+    "🤐",
+    "🤨",
+    "😏",
+    "🤯",
+    "🤠",
+    "😎",
+    "🤓",
+    "🧐",
+  ];
 
   constructor(private todoService: TodoService) {}
 
   ngOnInit() {
     let index = Math.floor(Math.random() * this.emojis.length);
-    // console.log(this.emojis[index]);
-    this.headerEmoji = this.emojis[index]
+    this.headerEmoji = this.emojis[index];
 
     this.todoService.todoItems$.subscribe((res) => {
       this.todoItems = res;
     });
-
 
     if (isAndroid) {
       Application.android.on(
@@ -51,19 +84,17 @@ export class TodoComponent implements OnInit {
         }
       );
     }
-
-    this.todoService.removeAllTodoItems();
   }
 
-  toggleTodo(key: number): void {
-    this.todoService.toggleTodo(key.toString());
+  toggleTodo(key: string): void {
+    this.todoService.toggleTodo(key);
   }
 
-  deleteTodo(args: SwipeGestureEventData, key: number): void {
-    this.todoService.removeTodoItem(key.toString());
+  deleteTodo(key: string): void {
+    this.todoService.removeTodoItem(key);
   }
 
-  editTodo(key: number): void {
+  editTodo(key: string): void {
     this.todo = this.todoItems.find((x) => x.key == key);
     this.showDialog();
   }
@@ -79,12 +110,11 @@ export class TodoComponent implements OnInit {
 
   addOrUpdate(todo: Todo): void {
     if (todo.key) {
-      this.todoService.updateTitle(todo.key.toString(), todo.title);
-      this.closeDialog();
-      return;
+      this.todoService.updateTitle(todo.key, todo.title);
+    } else {
+      this.todoService.addTodoItem(todo);
     }
 
-    this.todoService.addTodoItem(todo.title);
     this.closeDialog();
   }
 }

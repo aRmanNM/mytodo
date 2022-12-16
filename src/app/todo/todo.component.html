@@ -6,7 +6,7 @@
   <ListView [items]="todoItems" row="0" col="0" class="content">
     <ng-template let-item="item">
       <StackLayout
-        (swipe)="deleteTodo($event, item.key)"
+        (swipe)="deleteTodo(item.key)"
         (tap)="toggleTodo(item.key)"
         (longPress)="editTodo(item.key)"
       >

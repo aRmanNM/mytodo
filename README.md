@@ -3,8 +3,11 @@
 - [x] ~~persistence~~
 - [x] ~~swipe delete functionality~~
 - [x] ~~add new functionality~~
-- [ ] refactor code
+- [x] ~~refactor persistence service~~
 - [ ] clear all button
 - [x] ~~random emoji~~
-- [ ] darg-n-drop reorder
+- [ ] drag-n-drop reorder
 - [ ] fix strike-through font rendering issue
+- [ ] fix swipe not being smooth and responsive
+- [ ] clean up template and css
+- [x] fix item order issue

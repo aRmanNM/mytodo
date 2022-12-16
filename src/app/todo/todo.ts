@@ -1,5 +1,6 @@
 export interface Todo {
-    key: number;
+    key: string;
     title: string;
     completed: boolean;
+    createdAt: EpochTimeStamp
 }

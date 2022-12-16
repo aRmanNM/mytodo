@@ -5,43 +5,50 @@ import { ApplicationSettings } from "@nativescript/core";
 export class StorageService {
   constructor() {}
 
-  getItems(): any[] {
-    let keys = ApplicationSettings.getAllKeys();
+  getAll(): any[] {
+    const keys: string[] = ApplicationSettings.getAllKeys();
     let items: any[] = [];
-    for (const key in keys) {
-      items.push(this.getItem(key));
+    for (let key in keys) {
+      let item = this.get(keys[key]);
+      if (item) {
+        items.push(item);
+      }
     }
 
     return items;
   }
 
-  setItem(value: any): void {
-    let key = this.getNewKey();
-    ApplicationSettings.setString(key, JSON.stringify(value));
-  }
-
-  updateItem(key: string, value: any): void {
-    ApplicationSettings.setString(key, JSON.stringify(value));
-  }
-
-  getItem(key: string): any {
+  get(key: string): any {
     let item = ApplicationSettings.getString(key);
     if (item) {
-      return { key, ...JSON.parse(item) };
+      return JSON.parse(item);
     }
   }
 
-  removeItem(key: string): void {
+  set(value: any): void {
+    if (!value.key) {
+      value.key = this.generateGuid();
+    }
+
+    ApplicationSettings.setString(value.key, JSON.stringify(value));
+  }
+
+  remove(key: string): void {
     ApplicationSettings.remove(key);
   }
 
-  removeAllItems(): void {
+  removeAll(): void {
     ApplicationSettings.clear();
   }
 
-  getNewKey(): string {
-    let num = 0;
-    while (ApplicationSettings.hasKey(num.toString())) num++;
-    return num.toString();
+  generateGuid(): string {
+    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
+      /[xy]/g,
+      function (c) {
+        var r = (Math.random() * 16) | 0,
+          v = c == "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+      }
+    );
   }
 }
