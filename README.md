@@ -11,3 +11,4 @@
 - [ ] fix swipe not being smooth and responsive
 - [ ] clean up template and css
 - [x] fix item order issue
+- [ ] change splash screen and app icon
