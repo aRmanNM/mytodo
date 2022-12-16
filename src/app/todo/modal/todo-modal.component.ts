@@ -1,13 +1,15 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   HostListener,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
+  ViewChildren,
 } from "@angular/core";
-import { FormControl } from "@angular/forms";
 import { Todo } from "../todo";
 
 @Component({
@@ -19,12 +21,18 @@ export class TodoModalComponent implements OnInit, OnDestroy {
   @Output() onSubmit = new EventEmitter<Todo>();
   @Output() onCancel = new EventEmitter<void>();
 
+  @ViewChild("todoInput") input: ElementRef;
+
   title: string = "";
 
   constructor() {}
 
   ngOnDestroy(): void {
     // console.log("modal destroyed!");
+  }
+
+  ngAfterViewInit() {
+    this.input.nativeElement.focus();
   }
 
   ngOnInit() {

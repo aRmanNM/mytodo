@@ -1,5 +1,14 @@
 <StackLayout class="dialog">
-  <TextView autocorrect="false" textAlignment="center" class="label" [(ngModel)]="title"> </TextView>
-  <Button class="btn btn-primary" text="{{todo ? 'Edit' : 'Add'}}" (tap)="addOrEdit()"></Button>
-  <Button class="btn" text="Cancel" (tap)="cancel()"></Button>
+  <TextField
+    #todoInput
+    autocorrect="false"
+    textAlignment="center"
+    returnKeyType="done"
+    class="label"
+    [(ngModel)]="title"
+    (returnPress)="addOrEdit()"
+  >
+  </TextField>
+  <!-- <Button class="btn btn-primary" text="{{todo ? 'Edit' : 'Add'}}" (tap)="addOrEdit()"></Button>
+  <Button class="btn" text="Cancel" (tap)="cancel()"></Button> -->
 </StackLayout>

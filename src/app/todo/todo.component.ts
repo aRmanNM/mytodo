@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import {
+  AndroidActivityBackPressedEventData,
+  AndroidApplication,
+  Application,
   EventData,
+  isAndroid,
   ItemEventData,
   SwipeGestureEventData,
 } from "@nativescript/core";
@@ -35,7 +39,20 @@ export class TodoComponent implements OnInit {
       this.todoItems = res;
     });
 
-    // this.todoService.removeAllTodoItems();
+
+    if (isAndroid) {
+      Application.android.on(
+        AndroidApplication.activityBackPressedEvent,
+        (data: AndroidActivityBackPressedEventData) => {
+          if (this.dialogOpen) {
+            data.cancel = true;
+            this.closeDialog();
+          }
+        }
+      );
+    }
+
+    this.todoService.removeAllTodoItems();
   }
 
   toggleTodo(key: number): void {
