@@ -1,8 +1,9 @@
 ## Simple opinionated todo list mobile application
 ### Todo:
-- [ ] persistence
+- [x] ~~persistence~~
 - [x] ~~swipe delete functionality~~
-- [ ] add new functionality
+- [x] ~~add new functionality~~
+- [ ] refactor code
 - [ ] clear all button
 - [ ] random emoji
 - [ ] darg-n-drop reorder

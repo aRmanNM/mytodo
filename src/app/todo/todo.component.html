@@ -2,12 +2,13 @@
   <Label class="bar-label" text="😇" textAlignment="center"> </Label>
 </ActionBar>
 
-<GridLayout>
-  <ListView [items]="todoItems">
+<GridLayout rows="*, 100" [class.dialogOpen]="dialogOpen">
+  <ListView [items]="todoItems" row="0" col="0" class="content">
     <ng-template let-item="item">
       <StackLayout
         (swipe)="deleteTodo($event, item.key)"
         (tap)="toggleTodo(item.key)"
+        (longPress)="editTodo(item.key)"
       >
         <Label
           class="label"
@@ -20,6 +21,19 @@
       </StackLayout>
     </ng-template>
   </ListView>
+  <StackLayout row="1" col="0" horizontalAlignment="center" class="content">
+    <FAB
+      text="➕"
+      rippleColor="#f1f1f1"
+      class="fab-button"
+      (tap)="showDialog()"
+    ></FAB>
+  </StackLayout>
+  <AbsoluteLayout class="dialog-wrapper" horizontalAlignment="center">
+    <todo-modal *ngIf="dialogOpen"
+      [todo]="todo"
+      (onCancel)="closeDialog()"
+      (onSubmit)="addOrUpdate($event)"
+    ></todo-modal>
+  </AbsoluteLayout>
 </GridLayout>
-
-<FAB text="+" rippleColor="#f1f1f1" class="fab-button"></FAB>

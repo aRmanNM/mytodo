@@ -1,10 +1,15 @@
 import { Component, OnInit } from "@angular/core";
-import { EventData, ItemEventData, SwipeGestureEventData } from "@nativescript/core";
+import {
+  EventData,
+  ItemEventData,
+  SwipeGestureEventData,
+} from "@nativescript/core";
 import { Todo } from "./todo";
-import { registerElement } from '@nativescript/angular';
+import { registerElement } from "@nativescript/angular";
+import { TodoService } from "./todo.service";
 registerElement(
-  'Fab',
-  () => require('@nstudio/nativescript-floatingactionbutton').Fab
+  "Fab",
+  () => require("@nstudio/nativescript-floatingactionbutton").Fab
 );
 
 @Component({
@@ -13,27 +18,49 @@ registerElement(
 })
 export class TodoComponent implements OnInit {
   todoItems: Todo[];
-  constructor() {}
+  todo: Todo;
+  dialogOpen = false;
+
+  constructor(private todoService: TodoService) {}
 
   ngOnInit() {
-    this.todoItems = [
-      { title: "do this", completed: false, key: 0 },
-      { title: "a very long todo item that is really hard to fit in", completed: false, key: 1 },
-      { title: "do that", completed: true, key: 2 },
-      { title: "a longer todo item to do", completed: true, key: 3 },
-    ];
+    this.todoService.todoItems$.subscribe((res) => {
+      this.todoItems = res;
+    });
+
+    // this.todoService.removeAllTodoItems();
   }
 
   toggleTodo(key: number): void {
-    let todo = this.todoItems.find((x) => x.key == key);
-    if (todo) {
-      todo.completed = !todo.completed;
-    }
+    this.todoService.toggleTodo(key.toString());
   }
 
   deleteTodo(args: SwipeGestureEventData, key: number): void {
-    if ([0, 2].includes(args.direction)) {
-      this.todoItems = this.todoItems.filter((x) => x.key != key);
+    this.todoService.removeTodoItem(key.toString());
+  }
+
+  editTodo(key: number): void {
+    this.todo = this.todoItems.find((x) => x.key == key);
+    this.showDialog();
+  }
+
+  showDialog() {
+    this.dialogOpen = true;
+  }
+
+  closeDialog() {
+    this.dialogOpen = false;
+    this.todo = undefined;
+  }
+
+  addOrUpdate(todo: Todo): void {
+    if (todo.key) {
+      this.todoService.updateTitle(todo.key.toString(), todo.title);
+      this.closeDialog();
+      return;
     }
+
+    this.todoService.addTodoItem(todo.title);
+    this.closeDialog();
   }
 }
