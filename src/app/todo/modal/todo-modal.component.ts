@@ -24,7 +24,7 @@ export class TodoModalComponent implements OnInit, OnDestroy {
   constructor() {}
 
   ngOnDestroy(): void {
-    console.log("modal destroyed!");
+    // console.log("modal destroyed!");
   }
 
   ngOnInit() {

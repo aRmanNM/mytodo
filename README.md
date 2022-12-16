@@ -5,5 +5,6 @@
 - [x] ~~add new functionality~~
 - [ ] refactor code
 - [ ] clear all button
-- [ ] random emoji
+- [x] ~~random emoji~~
 - [ ] darg-n-drop reorder
+- [ ] fix strike-through font rendering issue

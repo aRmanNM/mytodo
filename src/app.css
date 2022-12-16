@@ -5,6 +5,14 @@ Button.-primary {
   font-size: 18;
 }
 
+.btn {
+  background-color: black;
+  color: white;
+}
+
+.btn-primary {
+}
+
 .bar-label {
   font-size: 30pt;
 }
