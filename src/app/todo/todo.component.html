@@ -10,13 +10,13 @@
         (tap)="toggleTodo(item.key)"
         (longPress)="editTodo(item.key)"
       >
-        <Label
-          class="label"
-          textWrap="false"
-          [text]="item.title"
-          textAlignment="center"
-          textDecoration="{{ item.completed ? 'line-through' : '' }}"
-        >
+        <Label textWrap="false" textAlignment="center" class="label">
+          <FormattedString>
+            <span
+              [text]="item.title"
+              textDecoration="{{ item.completed ? 'line-through' : '' }}"
+            ></span>
+          </FormattedString>
         </Label>
       </StackLayout>
     </ng-template>
@@ -30,7 +30,8 @@
     ></FAB>
   </StackLayout>
   <AbsoluteLayout class="dialog-wrapper" horizontalAlignment="center">
-    <todo-modal *ngIf="dialogOpen"
+    <todo-modal
+      *ngIf="dialogOpen"
       [todo]="todo"
       (onCancel)="closeDialog()"
       (onSubmit)="addOrUpdate($event)"

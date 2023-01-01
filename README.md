@@ -7,8 +7,8 @@
 - [ ] clear all button
 - [x] ~~random emoji~~
 - [ ] drag-n-drop reorder
-- [ ] fix strike-through font rendering issue
+- [x] ~~fix strike-through font rendering issue~~
 - [ ] fix swipe not being smooth and responsive
-- [ ] clean up template and css
-- [x] fix item order issue
+- [x] ~~clean up template and css~~
+- [x] ~~fix item order issue~~
 - [ ] change splash screen and app icon
