@@ -2,11 +2,12 @@ import { NgModule } from "@angular/core";
 import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "@nativescript/angular";
 
-import { TodoComponent } from "./todo/todo.component";
-
 const routes: Routes = [
   { path: "", redirectTo: "/todo", pathMatch: "full" },
-  { path: "todo", component: TodoComponent },
+  {
+    path: "todo",
+    loadChildren: () => import("./todo/todo.module").then((m) => m.TodoModule),
+  },
 ];
 
 @NgModule({

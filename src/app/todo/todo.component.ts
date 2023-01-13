@@ -5,7 +5,7 @@ import {
   Application,
   isAndroid,
 } from "@nativescript/core";
-import { Todo } from "./todo";
+import { Todo } from "../core/models/todo";
 import { registerElement } from "@nativescript/angular";
 import { TodoService } from "./todo.service";
 registerElement(
