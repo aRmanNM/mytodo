@@ -12,3 +12,7 @@
 - [x] ~~clean up template and css~~
 - [x] ~~fix item order issue~~
 - [ ] change splash screen and app icon
+- [ ] implement initial worklog functionality
+
+### Concept:
+[![concept](./res/concept.png)](https://wireframe.cc/pro/pp/b6d863b93619372)
