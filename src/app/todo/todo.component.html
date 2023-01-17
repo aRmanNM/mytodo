@@ -1,7 +1,4 @@
-<ActionBar>
-  <Label class="bar-label" [text]="headerEmoji" textAlignment="center"> </Label>
-</ActionBar>
-
+<app-actionbar></app-actionbar>
 <GridLayout rows="*, 100" [class.dialogOpen]="dialogOpen">
   <ListView [items]="todoItems" row="0" col="0" class="content">
     <ng-template let-item="item">
@@ -29,12 +26,10 @@
       (tap)="showDialog()"
     ></FAB>
   </StackLayout>
-  <AbsoluteLayout class="dialog-wrapper" horizontalAlignment="center">
-    <todo-modal
-      *ngIf="dialogOpen"
-      [todo]="todo"
-      (onCancel)="closeDialog()"
-      (onSubmit)="addOrUpdate($event)"
-    ></todo-modal>
-  </AbsoluteLayout>
+  <app-modal
+    *ngIf="dialogOpen"
+    [model]="todo"
+    (onCancel)="closeDialog()"
+    (onSubmit)="addOrUpdate($event)"
+  ></app-modal>
 </GridLayout>

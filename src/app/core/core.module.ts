@@ -1,14 +1,12 @@
 import { NgModule, Optional, SkipSelf } from "@angular/core";
 import {
   NativeScriptModule,
-  NativeScriptFormsModule,
   NativeScriptHttpClientModule,
 } from "@nativescript/angular";
 import { StorageService } from "./services/storage.service";
 
 const MODULES: any[] = [
   NativeScriptModule,
-  NativeScriptFormsModule,
   NativeScriptHttpClientModule,
 ];
 

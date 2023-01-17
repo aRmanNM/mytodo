@@ -1,11 +1,16 @@
 import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
-import { NativeScriptCommonModule } from "@nativescript/angular";
-import { ModalComponent } from "./components/modal/modal.component";
+import {
+  NativeScriptCommonModule,
+  NativeScriptFormsModule,
+} from "@nativescript/angular";
+import { COMPONENTS } from "./components/index";
+
+const MODULES: any[] = [NativeScriptCommonModule, NativeScriptFormsModule];
 
 @NgModule({
-  imports: [NativeScriptCommonModule],
-  exports: [NativeScriptCommonModule],
-  declarations: [ModalComponent],
+  imports: [...MODULES],
+  exports: [...MODULES, ...COMPONENTS],
+  declarations: [...COMPONENTS],
   providers: [],
   schemas: [NO_ERRORS_SCHEMA],
 })

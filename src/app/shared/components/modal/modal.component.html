@@ -1,12 +1,14 @@
-<StackLayout class="dialog">
-  <TextField
-    #input
-    autocorrect="false"
-    textAlignment="center"
-    returnKeyType="done"
-    class="label"
-    [(ngModel)]="title"
-    (returnPress)="addOrEdit()"
-  >
-  </TextField>
-</StackLayout>
+<AbsoluteLayout class="dialog-wrapper" horizontalAlignment="center">
+  <StackLayout class="dialog">
+    <TextField
+      #input
+      autocorrect="false"
+      textAlignment="center"
+      returnKeyType="done"
+      class="label"
+      [(ngModel)]="title"
+      (returnPress)="addOrEdit()"
+    >
+    </TextField>
+  </StackLayout>
+</AbsoluteLayout>

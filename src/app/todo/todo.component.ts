@@ -20,55 +20,11 @@ registerElement(
 export class TodoComponent implements OnInit {
   todoItems: Todo[];
   todo: Todo;
-  headerEmoji: string;
   dialogOpen = false;
-
-  emojis = [
-    "😀",
-    "😃",
-    "😄",
-    "😁",
-    "😆",
-    "😅",
-    "🤣",
-    "😂",
-    "🙂",
-    "🙃",
-    "😉",
-    "😊",
-    "😇",
-    "😍",
-    "🤩",
-    "😘",
-    "😗",
-    "😚",
-    "😙",
-    "😋",
-    "😛",
-    "😜",
-    "🤪",
-    "😝",
-    "🤑",
-    "🤗",
-    "🤭",
-    "🤫",
-    "🤔",
-    "🤐",
-    "🤨",
-    "😏",
-    "🤯",
-    "🤠",
-    "😎",
-    "🤓",
-    "🧐",
-  ];
 
   constructor(private todoService: TodoService) {}
 
   ngOnInit() {
-    let index = Math.floor(Math.random() * this.emojis.length);
-    this.headerEmoji = this.emojis[index];
-
     this.todoService.todoItems$.subscribe((res) => {
       this.todoItems = res;
     });

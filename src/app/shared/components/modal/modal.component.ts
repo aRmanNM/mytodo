@@ -35,9 +35,13 @@ export class ModalComponent implements OnInit {
   }
 
   addOrEdit(): void {
-    this.model.title = this.title;
+    if (this.model) {
+      this.model.title = this.title;
+    } else {
+      this.model = { title: this.title, key: undefined };
+    }
+
     this.onSubmit.emit(this.model);
-    this.title = "";
   }
 
   cancel(): void {
