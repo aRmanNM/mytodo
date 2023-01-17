@@ -1,6 +1,7 @@
 <app-actionbar></app-actionbar>
-<GridLayout rows="*, 100" [class.dialogOpen]="dialogOpen">
-  <ListView [items]="todoItems" row="0" col="0" class="content">
+
+<GridLayout *ngIf="!dialogOpen" rows="*, 100" class="content">
+  <ListView [items]="todoItems" row="0" col="0">
     <ng-template let-item="item">
       <StackLayout
         (swipe)="deleteTodo(item.key)"
@@ -18,18 +19,29 @@
       </StackLayout>
     </ng-template>
   </ListView>
-  <StackLayout row="1" col="0" horizontalAlignment="center" class="content">
-    <FAB
-      text="➕"
-      rippleColor="#f1f1f1"
-      class="fab-button"
-      (tap)="showDialog()"
-    ></FAB>
-  </StackLayout>
-  <app-modal
-    *ngIf="dialogOpen"
-    [model]="todo"
-    (onCancel)="closeDialog()"
-    (onSubmit)="addOrUpdate($event)"
-  ></app-modal>
+  <FAB
+    row="1"
+    col="0"
+    horizontalAlignment="left"
+    text="Clr"
+    rippleColor="#f1f1f1"
+    class="fab-button warning"
+    (tap)="clearAll()"
+  ></FAB>
+  <FAB
+    row="1"
+    col="1"
+    horizontalAlignment="right"
+    text="➕"
+    rippleColor="#f1f1f1"
+    class="fab-button primary"
+    (tap)="showDialog()"
+  ></FAB>
 </GridLayout>
+
+<app-modal
+  *ngIf="dialogOpen"
+  [model]="todo"
+  (onCancel)="closeDialog()"
+  (onSubmit)="addOrUpdate($event)"
+></app-modal>

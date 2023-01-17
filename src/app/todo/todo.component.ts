@@ -73,4 +73,8 @@ export class TodoComponent implements OnInit {
 
     this.closeDialog();
   }
+
+  clearAll(): void {
+    this.todoService.removeAllTodoItems();
+  }
 }

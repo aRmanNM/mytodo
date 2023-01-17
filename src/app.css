@@ -1,48 +1,22 @@
 @import "@nativescript/theme/css/core.css";
 @import "@nativescript/theme/css/default.css";
 
-.btn {
-  background-color: black;
-  color: white;
-}
-
 .bar-label {
   font-size: 30pt;
 }
 
 .label {
-  font-size: 15pt;
+  font-size: 16pt;
 }
 
 .fab-button {
   height: 60;
   width: 60;
   margin: 15;
-  background-color: black;
   vertical-align: bottom;
   font-size: 16;
-  color: darkgray;
-}
-
-@keyframes show {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-.dialogOpen .content {
-  opacity: 0;
-}
-
-.dialogOpen .dialog-wrapper {
-  visibility: visible;
-}
-
-.dialog-wrapper {
-  visibility: collapse;
+  background-color: black;
+  color: darkgrey;
 }
 
 .dialog {
