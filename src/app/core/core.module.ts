@@ -3,18 +3,15 @@ import {
   NativeScriptModule,
   NativeScriptHttpClientModule,
 } from "@nativescript/angular";
-import { StorageService } from "./services/storage.service";
+import { SERVICES } from "./services/index";
 
-const MODULES: any[] = [
-  NativeScriptModule,
-  NativeScriptHttpClientModule,
-];
+const MODULES: any[] = [NativeScriptModule, NativeScriptHttpClientModule];
 
 @NgModule({
   imports: [...MODULES],
   exports: [...MODULES],
   declarations: [],
-  providers: [StorageService],
+  providers: [...SERVICES],
 })
 export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {

@@ -1,15 +1,11 @@
-<TabView
-  androidTabsPosition="bottom"
-  tabTextColor="darkgrey"
-  selectedTabTextColor="darkgrey"
-  androidSelectedTabHighlightColor="darkgrey"
-  tabBackgroundColor="black"
->
-  <GridLayout *tabItem="{ title: 'Todo' }">
-    <page-router-outlet name="todoTab"></page-router-outlet>
-  </GridLayout>
-
-  <GridLayout *tabItem="{ title: 'Worklog' }">
-    <page-router-outlet name="worklogTab"></page-router-outlet>
-  </GridLayout>
-</TabView>
+<DockLayout stretchLastChild="true">
+  <StackLayout
+    dock="bottom"
+    orientation="horizontal"
+    horizontalAlignment="center"
+  >
+    <Button class="nav-button" nsRouterLink="/todo" text="Todo"></Button>
+    <Button class="nav-button" nsRouterLink="/worklog" text="Worklog"></Button>
+  </StackLayout>
+  <page-router-outlet></page-router-outlet>
+</DockLayout>
