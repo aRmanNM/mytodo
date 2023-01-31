@@ -3,15 +3,21 @@ import { Routes } from "@angular/router";
 import { NativeScriptRouterModule } from "@nativescript/angular";
 
 const routes: Routes = [
-  // { path: "", redirectTo: "/todo", pathMatch: "full" },
+  {
+    path: "",
+    redirectTo: "/(todoTab:todo//worklogTab:worklog)",
+    pathMatch: "full",
+  },
   {
     path: "todo",
     loadChildren: () => import("./todo/todo.module").then((m) => m.TodoModule),
+    outlet: "todoTab",
   },
   {
     path: "worklog",
     loadChildren: () =>
       import("./worklog/worklog.module").then((m) => m.WorklogModule),
+    outlet: "worklogTab",
   },
 ];
 
