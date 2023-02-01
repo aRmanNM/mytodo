@@ -7,6 +7,13 @@ import {
   Output,
   ViewChild,
 } from "@angular/core";
+import {
+  AndroidActivityBackPressedEventData,
+  AndroidApplication,
+  Application,
+  isAndroid,
+} from "@nativescript/core";
+import { RecordType } from "~/app/core/enums/record-type";
 import { Base } from "~/app/core/models/base";
 
 @Component({
@@ -32,13 +39,26 @@ export class ModalComponent implements OnInit {
     if (this.model) {
       this.title = this.model.title;
     }
+
+    if (isAndroid) {
+      Application.android.on(
+        AndroidApplication.activityBackPressedEvent,
+        (data: AndroidActivityBackPressedEventData) => {
+          this.cancel();
+        }
+      );
+    }
   }
 
   addOrEdit(): void {
     if (this.model) {
       this.model.title = this.title;
     } else {
-      this.model = { title: this.title, key: undefined };
+      this.model = {
+        title: this.title,
+        key: undefined,
+        recordType: RecordType.Todo, // TODO: do something about this.
+      };
     }
 
     this.onSubmit.emit(this.model);

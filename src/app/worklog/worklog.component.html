@@ -1,1 +1,58 @@
-<Label text="something" textWrap="true"></Label>
+<app-actionbar></app-actionbar>
+<GridLayout *ngIf="!dialogOpen && !timerOpen" rows="*, 100" class="content">
+  <ListView [items]="worklogItems" row="0" col="0">
+    <ng-template let-item="item">
+      <StackLayout
+        (swipe)="deleteWorklog(item.key)"
+        (longPress)="editWorklog(item.key)"
+      >
+        <Label textWrap="false" textAlignment="center" class="label">
+          <FormattedString>
+            <span [text]="item.start | duration : item.end"></span>
+          </FormattedString>
+        </Label>
+        <Label textWrap="false" textAlignment="center" class="label">
+          <FormattedString>
+            <span
+              text="{{ item.start | persianDate }} - {{
+                item.end | persianDate
+              }}"
+            ></span>
+          </FormattedString>
+        </Label>
+        <Label textWrap="false" textAlignment="center" class="label">
+          <FormattedString>
+            <span [text]="item.title"></span>
+          </FormattedString>
+        </Label>
+      </StackLayout>
+    </ng-template>
+  </ListView>
+  <FAB
+    row="1"
+    col="0"
+    horizontalAlignment="left"
+    text="Clr"
+    rippleColor="#f1f1f1"
+    class="fab-button warning"
+    (tap)="clearAll()"
+  ></FAB>
+  <FAB
+    row="1"
+    col="1"
+    horizontalAlignment="right"
+    text="Strt"
+    rippleColor="#f1f1f1"
+    class="fab-button primary"
+    (tap)="showTimer()"
+  ></FAB>
+</GridLayout>
+
+<app-modal
+  *ngIf="dialogOpen"
+  [model]="worklog"
+  (onCancel)="closeDialog()"
+  (onSubmit)="addOrUpdateTitle($event)"
+></app-modal>
+
+<app-timer *ngIf="timerOpen" (onStop)="closeTimer($event)"></app-timer>

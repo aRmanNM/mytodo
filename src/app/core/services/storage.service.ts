@@ -37,9 +37,9 @@ export class StorageService {
     ApplicationSettings.remove(key);
   }
 
-  removeAll(): void {
-    ApplicationSettings.clear();
-  }
+  // removeAll(): void {
+  //   ApplicationSettings.clear();
+  // }
 
   generateGuid(): string {
     return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(

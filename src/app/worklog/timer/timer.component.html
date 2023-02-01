@@ -1,0 +1,22 @@
+<GridLayout rows="*, 100">
+  <AbsoluteLayout
+    class="timer-wrapper"
+    horizontalAlignment="center"
+    verticalAlignment="center"
+    row="0"
+    col="0"
+  >
+    <StackLayout class="timer">
+      <Label [text]="secondsPassed" textWrap="true"></Label>
+    </StackLayout>
+  </AbsoluteLayout>
+  <FAB
+    row="1"
+    col="0"
+    horizontalAlignment="center"
+    text="Stop"
+    rippleColor="#f1f1f1"
+    class="fab-button warning"
+    (tap)="stop()"
+  ></FAB>
+</GridLayout>

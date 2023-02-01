@@ -28,18 +28,6 @@ export class TodoComponent implements OnInit {
     this.todoService.todoItems$.subscribe((res) => {
       this.todoItems = res;
     });
-
-    if (isAndroid) {
-      Application.android.on(
-        AndroidApplication.activityBackPressedEvent,
-        (data: AndroidActivityBackPressedEventData) => {
-          if (this.dialogOpen) {
-            data.cancel = true;
-            this.closeDialog();
-          }
-        }
-      );
-    }
   }
 
   toggleTodo(key: string): void {

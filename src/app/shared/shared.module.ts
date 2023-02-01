@@ -4,13 +4,14 @@ import {
   NativeScriptFormsModule,
 } from "@nativescript/angular";
 import { COMPONENTS } from "./components/index";
+import { PIPES } from "./pipes/index";
 
 const MODULES: any[] = [NativeScriptCommonModule, NativeScriptFormsModule];
 
 @NgModule({
   imports: [...MODULES],
-  exports: [...MODULES, ...COMPONENTS],
-  declarations: [...COMPONENTS],
+  exports: [...MODULES, ...COMPONENTS, ...PIPES],
+  declarations: [...COMPONENTS, ...PIPES],
   providers: [],
   schemas: [NO_ERRORS_SCHEMA],
 })
