@@ -8,7 +8,7 @@
       >
         <Label textWrap="false" textAlignment="center" class="label">
           <FormattedString>
-            <span [text]="item.start | duration : item.end"></span>
+            <span [text]="item.start | duration : item.end | humanize"></span>
           </FormattedString>
         </Label>
         <Label textWrap="false" textAlignment="center" class="label">
