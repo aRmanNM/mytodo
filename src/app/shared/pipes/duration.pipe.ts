@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import * as humanizeDuration from "humanize-duration";
 
 @Pipe({
   name: "duration",

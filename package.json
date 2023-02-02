@@ -16,8 +16,8 @@
     "@nativescript/core": "~8.4.0",
     "@nativescript/theme": "~3.0.2",
     "@nstudio/nativescript-floatingactionbutton": "^3.0.4",
-    "humanize-duration": "^3.28.0",
     "jalali-moment": "^3.3.11",
+    "pretty-ms": "^8.0.0",
     "rxjs": "~7.5.0",
     "zone.js": "~0.11.5"
   },

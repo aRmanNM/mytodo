@@ -37,3 +37,7 @@
   border-bottom-width: 1;
   border-bottom-color: transparent;
 }
+
+.timer Label {
+  font-size: 20pt;
+}

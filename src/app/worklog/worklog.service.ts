@@ -18,9 +18,18 @@ export class WorklogService {
     let worklogItems: Worklog[] = (items as Worklog[]).filter(
       (x) => x.recordType == RecordType.Worklog
     );
-    // worklogItems.sort(
-    //   (x, y) => x.start.getTime() - y.start.getTime()
-    // );
+
+    // worklogItems.push({
+    //   key: "1",
+    //   recordType: RecordType.Worklog,
+    //   start: new Date(2023, 2, 2, 10, 30),
+    //   end: new Date(2023, 2, 2, 11, 40),
+    //   title: "",
+    // });
+
+    worklogItems.sort(
+      (x, y) => new Date(x.start).getTime() - new Date(y.start).getTime()
+    );
 
     this._worklogItems.next(worklogItems);
   }

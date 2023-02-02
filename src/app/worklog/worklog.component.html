@@ -8,7 +8,7 @@
       >
         <Label textWrap="false" textAlignment="center" class="label">
           <FormattedString>
-            <span [text]="item.start | duration : item.end | humanize"></span>
+            <span [text]="item.start | duration : item.end | prettifyMS"></span>
           </FormattedString>
         </Label>
         <Label textWrap="false" textAlignment="center" class="label">
@@ -35,7 +35,7 @@
     text="Clr"
     rippleColor="#f1f1f1"
     class="fab-button warning"
-    (tap)="clearAll()"
+    (doubleTap)="clearAll()"
   ></FAB>
   <FAB
     row="1"

@@ -1,5 +1,5 @@
 import { PersianDatePipe } from "./persian-date.pipe";
-import { HumanizePipe } from "./humanize.pipe";
 import { DurationPipe } from "./duration.pipe";
+import { PrettifyMSPipe } from "./prettify-ms.pipe";
 
-export const PIPES: any[] = [PersianDatePipe, HumanizePipe, DurationPipe];
+export const PIPES: any[] = [PersianDatePipe, DurationPipe, PrettifyMSPipe];

@@ -1,13 +1,11 @@
 import {
-  ChangeDetectorRef,
   Component,
   EventEmitter,
   OnDestroy,
   OnInit,
   Output,
 } from "@angular/core";
-import { Observable } from "@nativescript/core";
-import { interval, Subscription, timer } from "rxjs";
+import { interval, Subscription } from "rxjs";
 import { Worklog } from "~/app/core/models/worklog";
 
 @Component({
@@ -17,16 +15,16 @@ import { Worklog } from "~/app/core/models/worklog";
 export class TimerComponent implements OnInit, OnDestroy {
   started: boolean = false;
   startedAt: Date;
-  secondsPassed: number = 0;
+  timerValue: number = 0;
   intervalSub: Subscription;
 
   @Output() onStop = new EventEmitter<Worklog>();
 
-  constructor(private ref: ChangeDetectorRef) {}
+  constructor() {}
 
   ngOnDestroy(): void {
     this.started = false;
-    this.secondsPassed = 0;
+    this.timerValue = 0;
     this.intervalSub.unsubscribe();
   }
 
@@ -35,8 +33,7 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.startedAt = new Date();
 
     this.intervalSub = interval(1000).subscribe(() => {
-      this.secondsPassed = this.secondsPassed + 1;
-      // this.ref.markForCheck();
+      this.timerValue += 1000;
     });
   }
 

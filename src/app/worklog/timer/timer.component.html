@@ -7,7 +7,7 @@
     col="0"
   >
     <StackLayout class="timer">
-      <Label [text]="secondsPassed" textWrap="true"></Label>
+      <Label [text]="timerValue | prettifyMS" textWrap="true"></Label>
     </StackLayout>
   </AbsoluteLayout>
   <FAB

@@ -13,9 +13,10 @@
 - [x] ~~fix item order issue~~
 - [ ] change splash screen and app icon
 - [x] ~~implement initial worklog functionality~~
-- [ ] fix persian date angular pipe
-- [ ] double tap to clear
+- [x] ~~fix persian date angular pipe~~
+- [x] ~~double tap to clear~~
 - [ ] fix timer component counter format
+- [ ] implement toast service
 
 ### Concept:
 [![concept](./res/concept.png)](https://wireframe.cc/pro/pp/b6d863b93619372)
