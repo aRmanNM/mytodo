@@ -1,4 +1,4 @@
-<app-actionbar></app-actionbar>
+<app-actionbar [title]="title"></app-actionbar>
 <GridLayout *ngIf="!dialogOpen && !timerOpen" rows="*, 100" class="content">
   <ListView [items]="worklogItems" row="0" col="0">
     <ng-template let-item="item">

@@ -7,6 +7,7 @@ import { WorklogService } from "./worklog.service";
   templateUrl: "worklog.component.html",
 })
 export class WorklogComponent implements OnInit {
+  title = "Worklog";
   worklogItems: Worklog[];
   worklog: Worklog;
   dialogOpen = false;
