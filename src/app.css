@@ -1,8 +1,14 @@
 @import "@nativescript/theme/css/core.css";
 @import "@nativescript/theme/css/default.css";
 
+.timer-label {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
 .bar-label {
-  font-size: 30pt;
+  font-size: 26pt;
+  color: grey;
 }
 
 .label {

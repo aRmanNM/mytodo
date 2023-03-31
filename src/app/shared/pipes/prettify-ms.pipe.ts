@@ -6,6 +6,8 @@ import prettyMilliseconds from "pretty-ms";
 })
 export class PrettifyMSPipe implements PipeTransform {
   transform(ms: number): string {
-    return prettyMilliseconds(ms, { unitCount: 2, secondsDecimalDigits: 0 });
+    if (ms > 999) {
+      return prettyMilliseconds(ms, { unitCount: 2, secondsDecimalDigits: 0 });
+    }
   }
 }

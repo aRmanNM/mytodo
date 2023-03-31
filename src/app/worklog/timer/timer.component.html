@@ -2,12 +2,12 @@
   <AbsoluteLayout
     class="timer-wrapper"
     horizontalAlignment="center"
-    verticalAlignment="center"
+    verticalAlignment="bottom"
     row="0"
     col="0"
   >
     <StackLayout class="timer">
-      <Label [text]="timerValue | prettifyMS" textWrap="true"></Label>
+      <Label class="timer-label" [text]="timerValue | prettifyMS" textAlignment="center"></Label>
     </StackLayout>
   </AbsoluteLayout>
   <FAB
