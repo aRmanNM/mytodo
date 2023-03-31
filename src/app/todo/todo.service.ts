@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { StorageService } from "../core/services/storage.service";
 import { Todo } from "../core/models/todo";
-import { Base } from "../core/models/base";
 import { RecordType } from "../core/enums/record-type";
 
 @Injectable({ providedIn: "root" })
@@ -15,11 +14,7 @@ export class TodoService {
   }
 
   getTodoItems() {
-    let items: Base[] = this.storageService.getAll();
-    let todoItems: Todo[] = (items as Todo[]).filter(
-      (x) => x.recordType == RecordType.Todo
-    );
-    todoItems.sort((x, y) => x.createdAt - y.createdAt);
+    let todoItems: Todo[] = this.storageService.getAll(RecordType.Todo);
     this._todoItems.next(todoItems);
   }
 
@@ -29,27 +24,27 @@ export class TodoService {
     this.getTodoItems();
   }
 
-  toggleTodo(key: string) {
-    let todoItem: Todo = this.storageService.get(key);
+  toggleTodo(id: string) {
+    let todoItem: Todo = this.storageService.get(id);
     todoItem.completed = !todoItem.completed;
-    this.storageService.set(todoItem);
+    this.storageService.update(id, todoItem);
     this.getTodoItems();
   }
 
-  updateTitle(key: string, title: string) {
-    let todoItem: Todo = this.storageService.get(key);
+  updateTitle(id: string, title: string) {
+    let todoItem: Todo = this.storageService.get(id);
     todoItem.title = title;
-    this.storageService.set(todoItem);
+    this.storageService.update(id, todoItem);
     this.getTodoItems();
   }
 
-  removeTodoItem(key: string) {
-    this.storageService.remove(key);
+  removeTodoItem(id: string) {
+    this.storageService.remove(id);
     this.getTodoItems();
   }
 
   removeAllTodoItems() {
-    this._todoItems.value.forEach((x) => this.removeTodoItem(x.key));
+    this._todoItems.value.forEach((x) => this.removeTodoItem(x.id));
     this.getTodoItems();
   }
 }

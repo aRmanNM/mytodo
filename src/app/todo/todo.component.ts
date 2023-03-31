@@ -8,6 +8,7 @@ import {
 import { Todo } from "../core/models/todo";
 import { registerElement } from "@nativescript/angular";
 import { TodoService } from "./todo.service";
+import { RecordType } from "../core/enums/record-type";
 registerElement(
   "Fab",
   () => require("@nstudio/nativescript-floatingactionbutton").Fab
@@ -19,6 +20,7 @@ registerElement(
 })
 export class TodoComponent implements OnInit {
   title = "Todo";
+  recordType: RecordType = RecordType.Todo;
   todoItems: Todo[];
   todo: Todo;
   dialogOpen = false;
@@ -31,16 +33,16 @@ export class TodoComponent implements OnInit {
     });
   }
 
-  toggleTodo(key: string): void {
-    this.todoService.toggleTodo(key);
+  toggleTodo(id: string): void {
+    this.todoService.toggleTodo(id);
   }
 
-  deleteTodo(key: string): void {
-    this.todoService.removeTodoItem(key);
+  deleteTodo(id: string): void {
+    this.todoService.removeTodoItem(id);
   }
 
-  editTodo(key: string): void {
-    this.todo = this.todoItems.find((x) => x.key == key);
+  editTodo(id: string): void {
+    this.todo = this.todoItems.find((x) => x.id == id);
     this.showDialog();
   }
 
@@ -54,9 +56,10 @@ export class TodoComponent implements OnInit {
   }
 
   addOrUpdate(todo: Todo): void {
-    if (todo.key) {
-      this.todoService.updateTitle(todo.key, todo.title);
+    if (todo.id) {
+      this.todoService.updateTitle(todo.id, todo.title);
     } else {
+      todo.completed = false;
       this.todoService.addTodoItem(todo);
     }
 

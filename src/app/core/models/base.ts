@@ -1,6 +1,8 @@
 import { RecordType } from "../enums/record-type";
+
 export interface Base {
-  key: string;
+  id: string;
   title: string;
+  createdAt: EpochTimeStamp;
   recordType: RecordType;
 }

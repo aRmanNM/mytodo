@@ -22,6 +22,8 @@ import { Base } from "~/app/core/models/base";
 })
 export class ModalComponent implements OnInit {
   @Input() model: Base;
+  @Input() recordType: RecordType;
+
   @Output() onSubmit = new EventEmitter<Base>();
   @Output() onCancel = new EventEmitter<void>();
 
@@ -56,8 +58,9 @@ export class ModalComponent implements OnInit {
     } else {
       this.model = {
         title: this.title,
-        key: undefined,
-        recordType: RecordType.Todo, // TODO: do something about this.
+        id: undefined,
+        recordType: this.recordType,
+        createdAt: Date.now(),
       };
     }
 

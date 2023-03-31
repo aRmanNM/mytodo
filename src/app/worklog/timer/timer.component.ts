@@ -6,6 +6,7 @@ import {
   Output,
 } from "@angular/core";
 import { interval, Subscription } from "rxjs";
+import { RecordType } from "~/app/core/enums/record-type";
 import { Worklog } from "~/app/core/models/worklog";
 
 @Component({
@@ -41,9 +42,10 @@ export class TimerComponent implements OnInit, OnDestroy {
     let worklog: Worklog = {
       start: this.startedAt,
       end: new Date(),
-      key: undefined,
-      recordType: undefined,
-      title: undefined,
+      id: undefined,
+      recordType: RecordType.Worklog,
+      title: "",
+      createdAt: Date.now(),
     };
 
     this.onStop.emit(worklog);

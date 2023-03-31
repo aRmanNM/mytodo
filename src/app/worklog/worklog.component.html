@@ -3,8 +3,8 @@
   <ListView [items]="worklogItems" row="0" col="0">
     <ng-template let-item="item">
       <StackLayout
-        (swipe)="deleteWorklog(item.key)"
-        (longPress)="editWorklog(item.key)"
+        (swipe)="deleteWorklog(item.id)"
+        (longPress)="editWorklog(item.id)"
       >
         <Label textWrap="false" textAlignment="center" class="label">
           <FormattedString>
@@ -51,6 +51,7 @@
 <app-modal
   *ngIf="dialogOpen"
   [model]="worklog"
+  [recordType]="recordType"
   (onCancel)="closeDialog()"
   (onSubmit)="addOrUpdateTitle($event)"
 ></app-modal>

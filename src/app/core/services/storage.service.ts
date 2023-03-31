@@ -1,54 +1,39 @@
 import { Injectable } from "@angular/core";
-import { ApplicationSettings } from "@nativescript/core";
+import { CouchBase, ConcurrencyMode } from "@triniwiz/nativescript-couchbase";
+import { RecordType } from "../enums/record-type";
 
 @Injectable()
 export class StorageService {
-  constructor() {}
-
-  getAll(): any[] {
-    const keys: string[] = ApplicationSettings.getAllKeys();
-    let items: any[] = [];
-    for (let key in keys) {
-      let item = this.get(keys[key]);
-      if (item) {
-        items.push(item);
-      }
-    }
-
-    return items;
+  dbName = "myTodoDb";
+  database: CouchBase;
+  constructor() {
+    this.database = new CouchBase(this.dbName);
   }
 
-  get(key: string): any {
-    let item = ApplicationSettings.getString(key);
-    if (item) {
-      return JSON.parse(item);
-    }
+  getAll(recordType: RecordType): any[] {
+    return this.database.query({
+      select: [],
+      from: this.dbName,
+      where: [
+        { property: "recordType", comparison: "equalTo", value: recordType },
+      ],
+      order: [{ property: "createdAt", direction: "asc" }],
+    });
+  }
+
+  get(id: string): any {
+    return this.database.getDocument(id);
   }
 
   set(value: any): void {
-    if (!value.key) {
-      value.key = this.generateGuid();
-    }
-
-    ApplicationSettings.setString(value.key, JSON.stringify(value));
+    this.database.createDocument(value);
   }
 
-  remove(key: string): void {
-    ApplicationSettings.remove(key);
+  update(id: string, value: any): void {
+    this.database.updateDocument(id, value);
   }
 
-  // removeAll(): void {
-  //   ApplicationSettings.clear();
-  // }
-
-  generateGuid(): string {
-    return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(
-      /[xy]/g,
-      function (c) {
-        var r = (Math.random() * 16) | 0,
-          v = c == "x" ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-      }
-    );
+  remove(id: string): void {
+    this.database.deleteDocument(id);
   }
 }

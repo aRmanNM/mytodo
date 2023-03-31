@@ -16,7 +16,7 @@
 - [x] ~~fix persian date angular pipe~~
 - [x] ~~double tap to clear~~
 - [ ] implement toast service
-- [ ] change persistence layer (couchdb as an option)
+- [x] ~~change persistence layer using couchdb plugin~~
 - [ ] fix worklog timer
 
 ### Concept:

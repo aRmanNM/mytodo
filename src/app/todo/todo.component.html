@@ -3,9 +3,9 @@
   <ListView [items]="todoItems" row="0" col="0">
     <ng-template let-item="item">
       <StackLayout
-        (swipe)="deleteTodo(item.key)"
-        (tap)="toggleTodo(item.key)"
-        (longPress)="editTodo(item.key)"
+        (swipe)="deleteTodo(item.id)"
+        (tap)="toggleTodo(item.id)"
+        (longPress)="editTodo(item.id)"
       >
         <Label textWrap="false" textAlignment="center" class="label">
           <FormattedString>
@@ -41,6 +41,7 @@
 <app-modal
   *ngIf="dialogOpen"
   [model]="todo"
+  [recordType]="recordType"
   (onCancel)="closeDialog()"
   (onSubmit)="addOrUpdate($event)"
 ></app-modal>

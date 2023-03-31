@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { RecordType } from "../core/enums/record-type";
 import { Worklog } from "../core/models/worklog";
 import { WorklogService } from "./worklog.service";
 
@@ -8,6 +9,7 @@ import { WorklogService } from "./worklog.service";
 })
 export class WorklogComponent implements OnInit {
   title = "Worklog";
+  recordType: RecordType = RecordType.Worklog;
   worklogItems: Worklog[];
   worklog: Worklog;
   dialogOpen = false;
@@ -20,12 +22,12 @@ export class WorklogComponent implements OnInit {
     });
   }
 
-  deleteWorklog(key: string): void {
-    this.worklogService.removeWorklogItem(key);
+  deleteWorklog(id: string): void {
+    this.worklogService.removeWorklogItem(id);
   }
 
-  editWorklog(key: string): void {
-    this.worklog = this.worklogItems.find((x) => x.key == key);
+  editWorklog(id: string): void {
+    this.worklog = this.worklogItems.find((x) => x.id == id);
     this.showDialog();
   }
 
@@ -50,8 +52,8 @@ export class WorklogComponent implements OnInit {
   }
 
   addOrUpdateTitle(worklog: Worklog): void {
-    if (worklog.key) {
-      this.worklogService.updateTitle(worklog.key, worklog.title);
+    if (worklog.id) {
+      this.worklogService.updateTitle(worklog.id, worklog.title);
     } else {
       this.worklogService.addWorklog(worklog);
     }
