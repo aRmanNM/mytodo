@@ -1,5 +1,6 @@
 ## Simple opinionated todo list mobile application
 ### Todo:
+- [ ] worklog timer foreground service
 - [ ] drag-n-drop reorder
 - [ ] implement toast service
 - [ ] fix swipe not being smooth and responsive
