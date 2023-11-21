@@ -1,5 +1,7 @@
 ## Simple opinionated todo list mobile application
-### Todo:
+
+### Todo
+
 - [ ] worklog timer foreground service
 - [ ] drag-n-drop reorder
 - [ ] implement toast service
@@ -18,7 +20,8 @@
 - [x] ~~fix persian date angular pipe~~
 - [x] ~~double tap to clear~~
 - [x] ~~change persistence layer using couchdb plugin~~
-- [x] ~~fix worklog timer (add plugins to keep screen on and set low brightness to save battery)~~
+- [x] ~~fix worklog timer (add plugins to keep screen on)~~
 
-### Concept:
+### Concept
+
 [![concept](./res/concept.png)](https://wireframe.cc/pro/pp/b6d863b93619372)

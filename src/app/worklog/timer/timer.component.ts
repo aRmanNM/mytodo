@@ -10,8 +10,6 @@ import { RecordType } from "~/app/core/enums/record-type";
 import { Worklog } from "~/app/core/models/worklog";
 import { keepAwake, allowSleepAgain } from "@nativescript-community/insomnia";
 import { Brightness } from "@nativescript/brightness";
-import { requestPermission, hasPermission } from "nativescript-permissions";
-import { isAndroid } from "@nativescript/core";
 
 @Component({
   selector: "app-timer",
@@ -39,20 +37,6 @@ export class TimerComponent implements OnInit, OnDestroy {
     this.started = true;
     this.startedAt = new Date();
 
-    if (isAndroid) {
-      requestPermission(android.Manifest.permission.WRITE_SETTINGS)
-        .then(() => {
-          this.brightness = new Brightness();
-          this.defaultBrightness = this.brightness.get();
-          this.brightness.set({
-            intensity: 5,
-          });
-        })
-        .catch(() => {
-          console.log("permission not granted");
-        });
-    }
-
     keepAwake();
 
     this.intervalSub = interval(1000).subscribe(() => {
@@ -69,14 +53,6 @@ export class TimerComponent implements OnInit, OnDestroy {
       title: "",
       createdAt: Date.now(),
     };
-
-    if (isAndroid) {
-      if (hasPermission(android.Manifest.permission.WRITE_SETTINGS)) {
-        this.brightness.set({
-          intensity: this.defaultBrightness,
-        });
-      }
-    }
 
     allowSleepAgain();
 
