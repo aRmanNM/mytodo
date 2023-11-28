@@ -1,6 +1,5 @@
 import * as jalaliMoment from "jalali-moment";
 import { Pipe, PipeTransform } from "@angular/core";
-import { formatDate } from "@angular/common";
 
 @Pipe({ name: "persianDate" })
 export class PersianDatePipe implements PipeTransform {

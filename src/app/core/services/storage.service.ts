@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { CouchBase, ConcurrencyMode } from "@triniwiz/nativescript-couchbase";
+import { CouchBase } from "@triniwiz/nativescript-couchbase";
 import { RecordType } from "../enums/record-type";
 
 @Injectable()

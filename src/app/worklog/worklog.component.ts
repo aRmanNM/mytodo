@@ -64,4 +64,8 @@ export class WorklogComponent implements OnInit {
   clearAll(): void {
     this.worklogService.removeAllWorklogItems();
   }
+
+  exportWorklogs(): void {
+    this.worklogService.exportWorklogs(this.worklogItems);
+  }
 }

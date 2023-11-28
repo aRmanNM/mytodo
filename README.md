@@ -7,7 +7,7 @@
 - [ ] implement toast service
 - [ ] fix swipe not being smooth and responsive
 - [ ] change splash screen and app icon
-- [ ] export worklog as csv file
+- [x] ~~export worklog as csv file~~
 - [x] ~~persistence~~
 - [x] ~~swipe delete functionality~~
 - [x] ~~add new functionality~~
