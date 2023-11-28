@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Utils, isAndroid } from "@nativescript/core";
 import { asString, generateCsv, mkConfig } from "export-to-csv";
+import * as moment from "jalali-moment";
 import * as permission from "nativescript-permissions";
 
 @Injectable()
@@ -24,7 +25,7 @@ export class FileService {
 
       const csvConfig = mkConfig({ useKeysAsHeaders: true });
       const csv = generateCsv(csvConfig)(model);
-      const fileName = `worklog-export-${new Date().toDateString()}.csv`;
+      const fileName = `worklog-export-${moment(new Date()).format("YYYY-MM-DD-HH-MM")}.csv`;
 
       this.writeToFile("/Documents", fileName, asString(csv));
     } else {
