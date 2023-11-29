@@ -5,6 +5,7 @@ import { Worklog } from "../core/models/worklog";
 import { RecordType } from "../core/enums/record-type";
 import { FileService } from "../core/services/file.service";
 import { PersianDatePipe } from "../shared/pipes/persian-date.pipe";
+import { ToastService } from "../core/services/toast.service";
 
 @Injectable({ providedIn: "root" })
 export class WorklogService {
@@ -13,7 +14,8 @@ export class WorklogService {
   constructor(
     private storageService: StorageService,
     private fileService: FileService,
-    private persianDatePipe: PersianDatePipe
+    private persianDatePipe: PersianDatePipe,
+    private toastService: ToastService
   ) {
     this.getWorklogItems();
   }
@@ -63,6 +65,11 @@ export class WorklogService {
       exportModel.push(model);
     });
 
-    this.fileService.exportCSV(exportModel);
+    try {
+      this.fileService.exportCSV(exportModel);
+      this.toastService.createToast("DONE");
+    } catch (err) {
+      this.toastService.createToast("FAILED");
+    }
   }
 }

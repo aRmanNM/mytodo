@@ -22,7 +22,7 @@ export class FileService {
           this.writeToFile("/Documents", fileName, asString(csv));
         })
         .catch((err) => {
-          console.log(err);
+          throw err;
         });
     }
   }
