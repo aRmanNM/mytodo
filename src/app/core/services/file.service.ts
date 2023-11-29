@@ -8,23 +8,23 @@ import * as permission from "nativescript-permissions";
 export class FileService {
   constructor() {}
 
-  exportCSV(model: any) {
+  exportCSV(model: any): boolean {
     if (isAndroid) {
-      permission
-        .requestPermission(permission.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
-        .then(() => {
-          const csvConfig = mkConfig({ useKeysAsHeaders: true });
-          const csv = generateCsv(csvConfig)(model);
-          const fileName = `worklog-export-${moment(new Date()).format(
-            "YYYY-MM-DD-HH-MM"
-          )}.csv`;
+      permission.requestPermission(
+        permission.PERMISSIONS.WRITE_EXTERNAL_STORAGE
+      );
 
-          this.writeToFile("/Documents", fileName, asString(csv));
-        })
-        .catch((err) => {
-          throw err;
-        });
+      const csvConfig = mkConfig({ useKeysAsHeaders: true });
+      const csv = generateCsv(csvConfig)(model);
+      const fileName = `worklog-export-${moment(new Date()).format(
+        "YYYY-MM-DD-HH-MM"
+      )}.csv`;
+
+      this.writeToFile("/Documents", fileName, asString(csv));
+      return true;
     }
+
+    return false;
   }
 
   writeToFile(folderName, fileName, text) {

@@ -65,10 +65,11 @@ export class WorklogService {
       exportModel.push(model);
     });
 
-    try {
-      this.fileService.exportCSV(exportModel);
+    var res = this.fileService.exportCSV(exportModel);
+    if (res) {
       this.toastService.createToast("DONE");
-    } catch (err) {
+    }
+    else {
       this.toastService.createToast("FAILED");
     }
   }
