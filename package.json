@@ -21,7 +21,6 @@
     "@triniwiz/nativescript-couchbase": "^1.4.0",
     "export-to-csv": "^1.2.1",
     "jalali-moment": "^3.3.11",
-    "nativescript-android-fs": "^1.3.0",
     "nativescript-permissions": "^1.3.12",
     "pretty-ms": "^8.0.0",
     "rxjs": "~7.5.0",

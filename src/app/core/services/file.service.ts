@@ -10,26 +10,20 @@ export class FileService {
 
   exportCSV(model: any) {
     if (isAndroid) {
-      if (
-        android.os.Build.VERSION.SDK_INT <= android.os.Build.VERSION_CODES.Q
-      ) {
-        permission
-          .requestPermission(permission.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      }
+      permission
+        .requestPermission(permission.PERMISSIONS.WRITE_EXTERNAL_STORAGE)
+        .then(() => {
+          const csvConfig = mkConfig({ useKeysAsHeaders: true });
+          const csv = generateCsv(csvConfig)(model);
+          const fileName = `worklog-export-${moment(new Date()).format(
+            "YYYY-MM-DD-HH-MM"
+          )}.csv`;
 
-      const csvConfig = mkConfig({ useKeysAsHeaders: true });
-      const csv = generateCsv(csvConfig)(model);
-      const fileName = `worklog-export-${moment(new Date()).format("YYYY-MM-DD-HH-MM")}.csv`;
-
-      this.writeToFile("/Documents", fileName, asString(csv));
-    } else {
-      // TODO: add an unsupported toast
+          this.writeToFile("/Documents", fileName, asString(csv));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   }
 
