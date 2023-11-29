@@ -4,7 +4,7 @@
 
 - [ ] worklog timer foreground service
 - [ ] drag-n-drop reorder
-- [ ] implement toast service
+- [x] ~~implement toast service~~
 - [ ] fix swipe not being smooth and responsive
 - [ ] change splash screen and app icon
 - [x] ~~export worklog as csv file~~
