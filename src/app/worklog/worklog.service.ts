@@ -4,7 +4,10 @@ import { StorageService } from "../core/services/storage.service";
 import { Worklog } from "../core/models/worklog";
 import { RecordType } from "../core/enums/record-type";
 import { FileService } from "../core/services/file.service";
-import { PersianDatePipe } from "../shared/pipes/persian-date.pipe";
+import {
+  DateTimeTransformType,
+  PersianDatePipe,
+} from "../shared/pipes/persian-date.pipe";
 import { ToastService } from "../core/services/toast.service";
 
 @Injectable({ providedIn: "root" })
@@ -57,8 +60,18 @@ export class WorklogService {
 
     worklogs.forEach((worklog) => {
       let model = {
-        start: this.persianDatePipe.transform(worklog.start.toString(), true),
-        end: this.persianDatePipe.transform(worklog.end.toString(), true),
+        date: this.persianDatePipe.transform(
+          worklog.start.toString(),
+          DateTimeTransformType.Date
+        ),
+        startTime: this.persianDatePipe.transform(
+          worklog.start.toString(),
+          DateTimeTransformType.Time
+        ),
+        endTime: this.persianDatePipe.transform(
+          worklog.end.toString(),
+          DateTimeTransformType.Time
+        ),
         title: worklog.title,
       };
 
@@ -68,8 +81,7 @@ export class WorklogService {
     var res = this.fileService.exportCSV(exportModel);
     if (res) {
       this.toastService.createToast("DONE");
-    }
-    else {
+    } else {
       this.toastService.createToast("FAILED");
     }
   }
