@@ -22,6 +22,9 @@ export class WorklogComponent implements OnInit {
     });
   }
 
+  // worklog actions
+  //
+
   deleteWorklog(id: string): void {
     this.worklogService.removeWorklogItem(id);
   }
@@ -29,26 +32,6 @@ export class WorklogComponent implements OnInit {
   editWorklog(id: string): void {
     this.worklog = this.worklogItems.find((x) => x.id == id);
     this.showDialog();
-  }
-
-  showDialog() {
-    this.dialogOpen = true;
-  }
-
-  showTimer() {
-    this.timerOpen = true;
-  }
-
-  closeDialog() {
-    this.dialogOpen = false;
-    this.worklog = undefined;
-  }
-
-  closeTimer(worklog: Worklog) {
-    this.timerOpen = false;
-    this.worklog;
-    this.closeDialog();
-    this.worklogService.addWorklog(worklog);
   }
 
   addOrUpdateTitle(worklog: Worklog): void {
@@ -67,5 +50,30 @@ export class WorklogComponent implements OnInit {
 
   exportWorklogs(): void {
     this.worklogService.exportWorklogs(this.worklogItems);
+  }
+
+  // dialog for editing worklog description
+  //
+
+  showDialog() {
+    this.dialogOpen = true;
+  }
+
+  closeDialog() {
+    this.dialogOpen = false;
+    this.worklog = undefined;
+  }
+
+  // timer trigger
+  //
+
+  showTimer() {
+    this.timerOpen = true;
+    this.worklogService.startTimerForegroundService();
+  }
+
+  closeTimer() {
+    this.timerOpen = false;
+    this.worklogService.stopTimerForegroundService();
   }
 }

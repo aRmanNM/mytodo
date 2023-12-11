@@ -1,8 +1,9 @@
-## Simple opinionated todo list mobile application
+This is a simple mobile application for storing todo items and worklog records
 
 ### Todo
 
-- [ ] worklog timer foreground service
+- [ ] add support for separate work places
+- [x] ~~worklog timer foreground service~~
 - [ ] drag-n-drop reorder
 - [x] ~~implement toast service~~
 - [ ] fix swipe not being smooth and responsive

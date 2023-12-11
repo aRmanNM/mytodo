@@ -6,10 +6,7 @@ import {
   Output,
 } from "@angular/core";
 import { interval, Subscription } from "rxjs";
-import { RecordType } from "~/app/core/enums/record-type";
-import { Worklog } from "~/app/core/models/worklog";
 import { keepAwake, allowSleepAgain } from "@nativescript-community/insomnia";
-import { Brightness } from "@nativescript/brightness";
 
 @Component({
   selector: "app-timer",
@@ -20,10 +17,8 @@ export class TimerComponent implements OnInit, OnDestroy {
   startedAt: Date;
   timerValue: number = 0;
   intervalSub: Subscription;
-  brightness: Brightness;
-  defaultBrightness: number;
 
-  @Output() onStop = new EventEmitter<Worklog>();
+  @Output() onStop = new EventEmitter<void>();
 
   constructor() {}
 
@@ -45,17 +40,7 @@ export class TimerComponent implements OnInit, OnDestroy {
   }
 
   stop() {
-    let worklog: Worklog = {
-      start: this.startedAt,
-      end: new Date(),
-      id: undefined,
-      recordType: RecordType.Worklog,
-      title: "",
-      createdAt: Date.now(),
-    };
-
     allowSleepAgain();
-
-    this.onStop.emit(worklog);
+    this.onStop.emit();
   }
 }

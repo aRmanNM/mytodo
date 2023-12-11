@@ -6,7 +6,7 @@ import { ToastPosition, Toasty } from "@triniwiz/nativescript-toasty";
 export class ToastService {
   constructor() {}
 
-  createToast(message: string): void {
+  createSimpleToast(message: string): void {
     new Toasty({
       text: message,
       //   backgroundColor: new Color("white"),
