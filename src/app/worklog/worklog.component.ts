@@ -20,6 +20,8 @@ export class WorklogComponent implements OnInit {
     this.worklogService.worklogItems$.subscribe((res) => {
       this.worklogItems = res;
     });
+
+    this.timerOpen = this.worklogService.checkTimerServiceRunning();
   }
 
   // worklog actions
@@ -69,11 +71,12 @@ export class WorklogComponent implements OnInit {
 
   showTimer() {
     this.timerOpen = true;
-    this.worklogService.startTimerForegroundService();
+    this.worklogService.startTimerService();
   }
 
-  closeTimer() {
+  closeTimer(worklog: Worklog) {
     this.timerOpen = false;
-    this.worklogService.stopTimerForegroundService();
+    this.worklogService.stopTimerService();
+    this.worklogService.addWorklog(worklog);
   }
 }

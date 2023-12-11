@@ -1,46 +1,55 @@
 import {
   Component,
   EventEmitter,
-  OnDestroy,
+  NgZone,
   OnInit,
   Output,
 } from "@angular/core";
-import { interval, Subscription } from "rxjs";
-import { keepAwake, allowSleepAgain } from "@nativescript-community/insomnia";
+import { TimerService } from "~/app/core/services/timer.service";
+import { Worklog } from "~/app/core/models/worklog";
+import { RecordType } from "~/app/core/enums/record-type";
+import { Subscription } from "rxjs";
 
 @Component({
   selector: "app-timer",
   templateUrl: "timer.component.html",
 })
-export class TimerComponent implements OnInit, OnDestroy {
-  started: boolean = false;
-  startedAt: Date;
-  timerValue: number = 0;
-  intervalSub: Subscription;
+export class TimerComponent implements OnInit {
+  @Output() onStop = new EventEmitter<Worklog>();
 
-  @Output() onStop = new EventEmitter<void>();
+  startedAt;
+  timerValue;
 
-  constructor() {}
+  timerItemSubscription: Subscription;
 
-  ngOnDestroy(): void {
-    this.started = false;
-    this.timerValue = 0;
-    this.intervalSub.unsubscribe();
-  }
+  constructor(private timerService: TimerService, private zone: NgZone) {}
 
   ngOnInit() {
-    this.started = true;
-    this.startedAt = new Date();
-
-    keepAwake();
-
-    this.intervalSub = interval(1000).subscribe(() => {
-      this.timerValue += 1000;
-    });
+    this.timerItemSubscription = this.timerService.timerItem$.subscribe(
+      (timerItem) => {
+        console.log("timerItem: ", timerItem);
+        console.log("startedAt: ", this.startedAt);
+        console.log("timerValue: ", this.timerValue);
+        // this.zone.run(() => {
+        //   this.startedAt = timerItem.startedAt;
+        //   this.timerValue = timerItem.timerValue;
+        // });
+      }
+    );
   }
 
   stop() {
-    allowSleepAgain();
-    this.onStop.emit();
+    this.timerItemSubscription.unsubscribe();
+
+    let worklog: Worklog = {
+      start: this.startedAt,
+      end: new Date(), // TODO: calculate this (startedAt + timerValue)
+      id: undefined,
+      recordType: RecordType.Worklog,
+      title: "",
+      createdAt: Date.now(),
+    };
+
+    this.onStop.emit(worklog);
   }
 }

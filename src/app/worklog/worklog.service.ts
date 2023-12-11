@@ -9,9 +9,7 @@ import {
   PersianDatePipe,
 } from "../shared/pipes/persian-date.pipe";
 import { ToastService } from "../core/services/toast.service";
-import * as permission from "nativescript-permissions";
-import { TimerForegroundService } from "./timer/timer-foreground-service.android";
-import { getApplicationContext } from "@nativescript/core/utils/android";
+import { TimerService } from "../core/services/timer.service";
 
 @Injectable()
 export class WorklogService {
@@ -22,40 +20,10 @@ export class WorklogService {
     private storageService: StorageService,
     private fileService: FileService,
     private persianDatePipe: PersianDatePipe,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private timerService: TimerService
   ) {
-    this.registerBroadCastReceiver();
     this.getWorklogItems();
-  }
-
-  // link: https://github.com/NikolayBa/NativeScriptTestAndroidService/blob/master/src/app/home/home.component.ts#L42
-  registerBroadCastReceiver() {
-    const cb = (<any>android.content.BroadcastReceiver).extend({
-      onReceive: (context, data: android.content.Intent) => {
-        const worklog: Worklog = {
-          start: new Date(data.getStringExtra("StartedAt")),
-          end: new Date(data.getStringExtra("EndedAt")),
-          id: undefined,
-          recordType: RecordType.Worklog,
-          title: "",
-          createdAt: Date.now(),
-        };
-
-        this.addWorklog(worklog);
-      },
-    });
-
-    var _onReceivedCallback = new cb();
-    var broadcastManager =
-      androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(
-        getApplicationContext()
-      );
-    broadcastManager.registerReceiver(
-      _onReceivedCallback,
-      new android.content.IntentFilter(
-        "org.nativescript.TimerForegroundService"
-      )
-    );
   }
 
   getWorklogItems() {
@@ -122,26 +90,15 @@ export class WorklogService {
     }
   }
 
-  startTimerForegroundService() {
-    permission
-      .requestPermission("android.permission.FOREGROUND_SERVICE")
-      .catch((er) => {
-        console.warn("failed to acquire permission: FOREGROUND_SERVICE");
-      });
-
-    // this is not used. just added this to avoid a runtime exception
-    const tfs = new TimerForegroundService();
-
-    const context = getApplicationContext();
-    const intent = new android.content.Intent();
-    intent.setClassName(context, "org.nativescript.TimerForegroundService");
-    context.startForegroundService(intent);
+  startTimerService() {
+    this.timerService.startTimerForegroundService();
   }
 
-  stopTimerForegroundService() {
-    const context = getApplicationContext();
-    const intent = new android.content.Intent();
-    intent.setClassName(context, "org.nativescript.TimerForegroundService");
-    context.stopService(intent);
+  stopTimerService() {
+    this.timerService.stopTimerForegroundService();
+  }
+
+  checkTimerServiceRunning(): boolean {
+    return this.timerService.checkServiceRunning();
   }
 }

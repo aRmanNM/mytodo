@@ -65,4 +65,4 @@
   (onSubmit)="addOrUpdateTitle($event)"
 ></app-modal>
 
-<app-timer *ngIf="timerOpen" (onStop)="closeTimer($event)"></app-timer>
+<app-timer [visibility]="timerOpen ? 'visible' : 'hidden'" (onStop)="closeTimer($event)"></app-timer>

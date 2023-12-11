@@ -9,22 +9,35 @@ import { Subscription, interval } from "rxjs";
 @NativeClass()
 @JavaProxy("org.nativescript.TimerForegroundService")
 class TimerForegroundService extends android.app.Service {
+  static isRunning = false;
+
   started: boolean = false;
-  startedAt: Date;
-  timerValue: number = 0;
   intervalSub: Subscription;
+  startedAt: Date;
+  timerValue: number;
 
   constructor() {
     super();
+
     return global.__native(this);
   }
 
   onStartCommand(intent, flags, startId) {
+    // setting initial values here is important!
     this.started = true;
     this.startedAt = new Date();
+    this.timerValue = 0;
 
-    this.intervalSub = interval(1000).subscribe(() => {
-      this.timerValue += 1000;
+    this.intervalSub = interval(5000).subscribe(() => {
+      this.timerValue += 5000;
+      const intent = new android.content.Intent(
+        "org.nativescript.TimerForegroundService"
+      );
+
+      intent.putExtra("StartedAt", this.startedAt.toString());
+      intent.putExtra("TimerValue", this.timerValue.toString());
+
+      this.getApplication().sendBroadcast(intent);
     });
 
     super.onStartCommand(intent, flags, startId);
@@ -34,23 +47,14 @@ class TimerForegroundService extends android.app.Service {
   onCreate() {
     super.onCreate();
     this.startForeground(1, this.getNotification());
+    TimerForegroundService.isRunning = true;
   }
 
   onDestroy() {
-    const intent = new android.content.Intent(
-      "org.nativescript.TimerForegroundService"
-    );
-    var broadcastManager =
-      androidx.localbroadcastmanager.content.LocalBroadcastManager.getInstance(
-        this.getApplicationContext()
-      );
-
-    intent.putExtra("StartedAt", this.startedAt.toString());
-    intent.putExtra("EndedAt", new Date().toString());
-
-    broadcastManager.sendBroadcast(intent);
-
     this.stopForeground(true);
+    this.intervalSub.unsubscribe(); // this is important!
+    this.timerValue = 0;
+    TimerForegroundService.isRunning = false;
   }
 
   private getNotification() {

@@ -7,7 +7,11 @@
     col="0"
   >
     <StackLayout class="timer">
-      <Label class="timer-label" [text]="timerValue | prettifyMS" textAlignment="center"></Label>
+      <Label
+        class="timer-label"
+        text="{{ timerValue | prettifyMS }}"
+        textAlignment="center"
+      ></Label>
     </StackLayout>
   </AbsoluteLayout>
   <FAB
