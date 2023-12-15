@@ -1,26 +1,19 @@
 <GridLayout rows="*, 100">
-  <AbsoluteLayout
-    class="timer-wrapper"
-    horizontalAlignment="center"
-    verticalAlignment="bottom"
+  <Label
     row="0"
     col="0"
-  >
-    <StackLayout class="timer">
-      <Label
-        class="timer-label"
-        text="{{ timerValue | prettifyMS }}"
-        textAlignment="center"
-      ></Label>
-    </StackLayout>
-  </AbsoluteLayout>
+    class="timer-label"
+    text="{{ timerItem?.timerValue| prettifyMS }}"
+    textAlignment="center"
+    verticalAlignment="bottom"
+  ></Label>
   <FAB
     row="1"
     col="0"
     horizontalAlignment="center"
     text="Stop"
     rippleColor="#f1f1f1"
-    class="fab-button warning"
+    class="fab-button"
     (tap)="stop()"
   ></FAB>
 </GridLayout>

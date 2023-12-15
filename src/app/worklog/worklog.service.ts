@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Subscription, interval } from "rxjs";
 import { StorageService } from "../core/services/storage.service";
 import { Worklog } from "../core/models/worklog";
 import { RecordType } from "../core/enums/record-type";
@@ -10,11 +10,18 @@ import {
 } from "../shared/pipes/persian-date.pipe";
 import { ToastService } from "../core/services/toast.service";
 import { TimerService } from "../core/services/timer.service";
+import { TimerItem } from "../core/models/timerItem";
+import { TimerForegroundService } from "../core/services/timer-foreground-service.android";
 
 @Injectable()
 export class WorklogService {
   private readonly _worklogItems = new BehaviorSubject<Worklog[]>([]);
   readonly worklogItems$ = this._worklogItems.asObservable();
+
+  private readonly _timerItem = new BehaviorSubject<TimerItem>(null);
+  readonly timerItem$ = this._timerItem.asObservable();
+
+  timerSubscription: Subscription = null;
 
   constructor(
     private storageService: StorageService,
@@ -84,21 +91,46 @@ export class WorklogService {
 
     var res = this.fileService.exportCSV(exportModel);
     if (res) {
-      this.toastService.createSimpleToast("DONE");
+      this.toastService.showSimpleToast("DONE");
     } else {
-      this.toastService.createSimpleToast("FAILED");
+      this.toastService.showSimpleToast("FAILED");
     }
   }
 
-  startTimerService() {
+  // timer functions
+  //
+
+  startTimer() {
     this.timerService.startTimerForegroundService();
+    this.subscribeTimer();
   }
 
-  stopTimerService() {
+  stopTimer() {
     this.timerService.stopTimerForegroundService();
+    this.unsubscribeTimer();
   }
 
-  checkTimerServiceRunning(): boolean {
-    return this.timerService.checkServiceRunning();
+  subscribeTimer() {
+    if (this.timerSubscription != null) {
+      this.timerSubscription.unsubscribe();
+    }
+
+    this.timerSubscription = interval(1000).subscribe(() => {
+      this._timerItem.next({
+        startedAt: TimerForegroundService.StartedAt,
+        timerValue: TimerForegroundService.TimerValue,
+      });
+    });
+  }
+
+  unsubscribeTimer() {
+    if (this.timerSubscription != null) {
+      this.timerSubscription.unsubscribe();
+      return;
+    }
+  }
+
+  isRunning(): boolean {
+    return this.timerService.isRunning();
   }
 }

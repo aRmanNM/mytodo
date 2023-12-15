@@ -1,5 +1,5 @@
 <app-actionbar [title]="title"></app-actionbar>
-<GridLayout *ngIf="!dialogOpen && !timerOpen" rows="*, 100" class="content">
+<GridLayout *ngIf="!timerOpen && !dialogOpen" rows="*, 100" class="content">
   <ListView [items]="worklogItems" row="0" col="0">
     <ng-template let-item="item">
       <StackLayout
@@ -65,4 +65,8 @@
   (onSubmit)="addOrUpdateTitle($event)"
 ></app-modal>
 
-<app-timer [visibility]="timerOpen ? 'visible' : 'hidden'" (onStop)="closeTimer($event)"></app-timer>
+<app-timer
+  *ngIf="timerOpen"
+  [timerItem]="timerItem"
+  (onStop)="closeTimer($event)"
+></app-timer>

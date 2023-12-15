@@ -3,17 +3,21 @@ import {
   NativeScriptCommonModule,
   NativeScriptFormsModule,
 } from "@nativescript/angular";
-import { COMPONENTS } from "./components/index";
-import { PIPES } from "./pipes/index";
+import { ActionbarComponent } from "./components/actionbar/actionbar.component";
+import { ModalComponent } from "./components/modal/modal.component";
+import { DurationPipe } from "./pipes/duration.pipe";
 import { PersianDatePipe } from "./pipes/persian-date.pipe";
+import { PrettifyMSPipe } from "./pipes/prettify-ms.pipe";
 
-const MODULES: any[] = [NativeScriptCommonModule, NativeScriptFormsModule];
+const MODULES = [NativeScriptCommonModule, NativeScriptFormsModule];
+const PIPES = [DurationPipe, PersianDatePipe, PrettifyMSPipe];
+const COMPONENTS = [ActionbarComponent, ModalComponent];
 
 @NgModule({
   imports: [...MODULES],
-  exports: [...MODULES, ...COMPONENTS, ...PIPES],
+  exports: [...MODULES, ...PIPES, ...COMPONENTS],
   declarations: [...COMPONENTS, ...PIPES],
-  providers: [PersianDatePipe],
+  providers: [...PIPES],
   schemas: [NO_ERRORS_SCHEMA],
 })
 export class SharedModule {}

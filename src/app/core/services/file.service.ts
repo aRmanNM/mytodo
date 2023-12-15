@@ -4,7 +4,7 @@ import { asString, generateCsv, mkConfig } from "export-to-csv";
 import * as moment from "jalali-moment";
 import * as permission from "nativescript-permissions";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class FileService {
   constructor() {}
 

@@ -1,14 +1,7 @@
-import {
-  Component,
-  EventEmitter,
-  NgZone,
-  OnInit,
-  Output,
-} from "@angular/core";
-import { TimerService } from "~/app/core/services/timer.service";
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
 import { Worklog } from "~/app/core/models/worklog";
 import { RecordType } from "~/app/core/enums/record-type";
-import { Subscription } from "rxjs";
+import { TimerItem } from "~/app/core/models/timerItem";
 
 @Component({
   selector: "app-timer",
@@ -17,33 +10,25 @@ import { Subscription } from "rxjs";
 export class TimerComponent implements OnInit {
   @Output() onStop = new EventEmitter<Worklog>();
 
-  startedAt;
-  timerValue;
-
-  timerItemSubscription: Subscription;
-
-  constructor(private timerService: TimerService, private zone: NgZone) {}
-
-  ngOnInit() {
-    this.timerItemSubscription = this.timerService.timerItem$.subscribe(
-      (timerItem) => {
-        console.log("timerItem: ", timerItem);
-        console.log("startedAt: ", this.startedAt);
-        console.log("timerValue: ", this.timerValue);
-        // this.zone.run(() => {
-        //   this.startedAt = timerItem.startedAt;
-        //   this.timerValue = timerItem.timerValue;
-        // });
-      }
-    );
+  private _timerItem;
+  @Input() set timerItem(value: TimerItem) {
+    this._timerItem = value;
   }
 
-  stop() {
-    this.timerItemSubscription.unsubscribe();
+  get timerItem(): TimerItem {
+    return this._timerItem;
+  }
 
-    let worklog: Worklog = {
-      start: this.startedAt,
-      end: new Date(), // TODO: calculate this (startedAt + timerValue)
+  constructor() {}
+
+  ngOnInit() {}
+
+  stop() {
+    const worklog: Worklog = {
+      start: this.timerItem?.startedAt,
+      end: new Date(
+        this.timerItem?.startedAt.getTime() + this.timerItem?.timerValue
+      ),
       id: undefined,
       recordType: RecordType.Worklog,
       title: "",

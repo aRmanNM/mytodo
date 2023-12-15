@@ -3,9 +3,13 @@ import {
   NativeScriptModule,
   NativeScriptHttpClientModule,
 } from "@nativescript/angular";
-import { SERVICES } from "./services/index";
+import { FileService } from "./services/file.service";
+import { StorageService } from "./services/storage.service";
+import { TimerService } from "./services/timer.service";
+import { ToastService } from "./services/toast.service";
 
-const MODULES: any[] = [NativeScriptModule, NativeScriptHttpClientModule];
+const MODULES = [NativeScriptHttpClientModule, NativeScriptModule];
+const SERVICES = [FileService, StorageService, TimerService, ToastService];
 
 @NgModule({
   imports: [...MODULES],
@@ -17,7 +21,7 @@ export class CoreModule {
   constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
     if (parentModule) {
       throw new Error(
-        "CoreModule is already loaded. Import it in the AppModule only"
+        "core module already loaded, only import in app.module.ts file"
       );
     }
   }

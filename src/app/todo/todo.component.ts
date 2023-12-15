@@ -1,10 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from "@angular/core";
-import {
-  AndroidActivityBackPressedEventData,
-  AndroidApplication,
-  Application,
-  isAndroid,
-} from "@nativescript/core";
+import { Component, OnInit } from "@angular/core";
 import { Todo } from "../core/models/todo";
 import { registerElement } from "@nativescript/angular";
 import { TodoService } from "./todo.service";

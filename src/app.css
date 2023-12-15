@@ -2,7 +2,7 @@
 @import "@nativescript/theme/css/default.css";
 
 .timer-label {
-  font-size: xx-large;
+  font-size: 20pt;
   font-weight: bold;
 }
 
@@ -42,8 +42,4 @@
 .dialog TextField {
   border-bottom-width: 1;
   border-bottom-color: transparent;
-}
-
-.timer Label {
-  font-size: 20pt;
 }

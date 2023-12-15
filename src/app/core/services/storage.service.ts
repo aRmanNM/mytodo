@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { CouchBase } from "@triniwiz/nativescript-couchbase";
 import { RecordType } from "../enums/record-type";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class StorageService {
   dbName = "myTodoDb";
   database: CouchBase;

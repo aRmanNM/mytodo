@@ -1,11 +1,20 @@
-import { Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from "@angular/core";
 import { RecordType } from "../core/enums/record-type";
 import { Worklog } from "../core/models/worklog";
 import { WorklogService } from "./worklog.service";
+import { TimerItem } from "../core/models/timerItem";
+
+var _ = require("lodash");
 
 @Component({
   selector: "app-worklog",
   templateUrl: "worklog.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorklogComponent implements OnInit {
   title = "Worklog";
@@ -14,14 +23,28 @@ export class WorklogComponent implements OnInit {
   worklog: Worklog;
   dialogOpen = false;
   timerOpen = false;
-  constructor(private worklogService: WorklogService) {}
+
+  timerItem: TimerItem = null;
+
+  constructor(
+    private worklogService: WorklogService,
+    private ref: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     this.worklogService.worklogItems$.subscribe((res) => {
       this.worklogItems = res;
     });
 
-    this.timerOpen = this.worklogService.checkTimerServiceRunning();
+    this.worklogService.timerItem$.subscribe((res) => {
+      this.timerItem = _.cloneDeep(res);
+      this.ref.detectChanges();
+    });
+
+    if (this.worklogService.isRunning()) {
+      this.timerOpen = true;
+      this.worklogService.subscribeTimer();
+    }
   }
 
   // worklog actions
@@ -71,12 +94,12 @@ export class WorklogComponent implements OnInit {
 
   showTimer() {
     this.timerOpen = true;
-    this.worklogService.startTimerService();
+    this.worklogService.startTimer();
   }
 
   closeTimer(worklog: Worklog) {
     this.timerOpen = false;
-    this.worklogService.stopTimerService();
+    this.worklogService.stopTimer();
     this.worklogService.addWorklog(worklog);
   }
 }

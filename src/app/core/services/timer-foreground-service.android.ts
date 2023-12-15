@@ -9,52 +9,48 @@ import { Subscription, interval } from "rxjs";
 @NativeClass()
 @JavaProxy("org.nativescript.TimerForegroundService")
 class TimerForegroundService extends android.app.Service {
-  static isRunning = false;
+  static Running: boolean = false;
+  static IntervalSubscription: Subscription = null;
 
-  started: boolean = false;
-  intervalSub: Subscription;
-  startedAt: Date;
-  timerValue: number;
+  static TimerValue: number = null;
+  static StartedAt: Date = null;
 
   constructor() {
     super();
-
     return global.__native(this);
   }
 
   onStartCommand(intent, flags, startId) {
-    // setting initial values here is important!
-    this.started = true;
-    this.startedAt = new Date();
-    this.timerValue = 0;
-
-    this.intervalSub = interval(5000).subscribe(() => {
-      this.timerValue += 5000;
-      const intent = new android.content.Intent(
-        "org.nativescript.TimerForegroundService"
+    if (!TimerForegroundService.Running) {
+      TimerForegroundService.TimerValue = 0;
+      TimerForegroundService.StartedAt = new Date();
+      TimerForegroundService.IntervalSubscription = interval(1000).subscribe(
+        () => {
+          TimerForegroundService.TimerValue += 1000;
+        }
       );
-
-      intent.putExtra("StartedAt", this.startedAt.toString());
-      intent.putExtra("TimerValue", this.timerValue.toString());
-
-      this.getApplication().sendBroadcast(intent);
-    });
+    }
 
     super.onStartCommand(intent, flags, startId);
+    TimerForegroundService.Running = true;
     return android.app.Service.START_STICKY;
   }
 
   onCreate() {
     super.onCreate();
     this.startForeground(1, this.getNotification());
-    TimerForegroundService.isRunning = true;
+  }
+
+  onBind(intent) {
+    return super.onBind(intent);
+  }
+
+  onUnbind(intent) {
+    return super.onUnbind(intent);
   }
 
   onDestroy() {
     this.stopForeground(true);
-    this.intervalSub.unsubscribe(); // this is important!
-    this.timerValue = 0;
-    TimerForegroundService.isRunning = false;
   }
 
   private getNotification() {

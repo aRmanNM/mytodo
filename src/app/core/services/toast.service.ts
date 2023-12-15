@@ -2,11 +2,11 @@ import { Injectable } from "@angular/core";
 import { Color } from "@nativescript/core";
 import { ToastPosition, Toasty } from "@triniwiz/nativescript-toasty";
 
-@Injectable()
+@Injectable({ providedIn: "root" })
 export class ToastService {
   constructor() {}
 
-  createSimpleToast(message: string): void {
+  showSimpleToast(message: string): void {
     new Toasty({
       text: message,
       //   backgroundColor: new Color("white"),
