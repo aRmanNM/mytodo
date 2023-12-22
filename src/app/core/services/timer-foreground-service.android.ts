@@ -26,7 +26,9 @@ class TimerForegroundService extends android.app.Service {
       TimerForegroundService.StartedAt = new Date();
       TimerForegroundService.IntervalSubscription = interval(1000).subscribe(
         () => {
-          TimerForegroundService.TimerValue += 1000;
+          // this is to avoid service stop when screen is off
+          TimerForegroundService.TimerValue =
+            Date.now() - TimerForegroundService.StartedAt.getTime();
         }
       );
     }

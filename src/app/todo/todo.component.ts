@@ -13,7 +13,8 @@ registerElement(
   templateUrl: "todo.component.html",
 })
 export class TodoComponent implements OnInit {
-  title = "Todo";
+  title = "TODO";
+  stat: string;
   recordType: RecordType = RecordType.Todo;
   todoItems: Todo[];
   todo: Todo;
@@ -24,6 +25,13 @@ export class TodoComponent implements OnInit {
   ngOnInit() {
     this.todoService.todoItems$.subscribe((res) => {
       this.todoItems = res;
+      if (res.length > 0) {
+        this.stat = `${res.filter((value) => value.completed).length}/${
+          res.length
+        }`;
+      } else {
+        this.stat = null;
+      }
     });
   }
 

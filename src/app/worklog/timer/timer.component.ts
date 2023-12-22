@@ -21,7 +21,9 @@ export class TimerComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this._timerItem = null;
+  }
 
   stop() {
     const worklog: Worklog = {

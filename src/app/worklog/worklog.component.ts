@@ -8,6 +8,8 @@ import { RecordType } from "../core/enums/record-type";
 import { Worklog } from "../core/models/worklog";
 import { WorklogService } from "./worklog.service";
 import { TimerItem } from "../core/models/timerItem";
+import { PrettifyMSPipe } from "../shared/pipes/prettify-ms.pipe";
+import { DurationPipe } from "../shared/pipes/duration.pipe";
 
 var _ = require("lodash");
 
@@ -17,7 +19,8 @@ var _ = require("lodash");
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorklogComponent implements OnInit {
-  title = "Worklog";
+  title = "WORKLOG";
+  stat: string = "";
   recordType: RecordType = RecordType.Worklog;
   worklogItems: Worklog[];
   worklog: Worklog;
@@ -28,12 +31,20 @@ export class WorklogComponent implements OnInit {
 
   constructor(
     private worklogService: WorklogService,
-    private ref: ChangeDetectorRef
+    private ref: ChangeDetectorRef,
+    private prettifyMSPipe: PrettifyMSPipe,
+    private durationPipe: DurationPipe
   ) {}
 
   ngOnInit() {
     this.worklogService.worklogItems$.subscribe((res) => {
       this.worklogItems = res;
+      this.stat = this.prettifyMSPipe.transform(
+        res.reduce(
+          (n, { end, start }) => n + this.durationPipe.transform(start, end),
+          0
+        )
+      );
     });
 
     this.worklogService.timerItem$.subscribe((res) => {
