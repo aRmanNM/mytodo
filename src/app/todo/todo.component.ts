@@ -2,11 +2,14 @@ import { Component, OnInit } from "@angular/core";
 import { Todo } from "../core/models/todo";
 import { registerElement } from "@nativescript/angular";
 import { TodoService } from "./todo.service";
+import { ToastService } from "../core/services/toast.service";
 import { RecordType } from "../core/enums/record-type";
 registerElement(
   "Fab",
   () => require("@nstudio/nativescript-floatingactionbutton").Fab
 );
+
+import { defaultWorkplaces } from "../core/models/workplaces";
 
 @Component({
   selector: "app-todo",
@@ -20,7 +23,12 @@ export class TodoComponent implements OnInit {
   todo: Todo;
   dialogOpen = false;
 
-  constructor(private todoService: TodoService) {}
+  workplaces = defaultWorkplaces;
+
+  constructor(
+    private todoService: TodoService,
+    private toastService: ToastService
+  ) {}
 
   ngOnInit() {
     this.todoService.todoItems$.subscribe((res) => {
@@ -36,7 +44,7 @@ export class TodoComponent implements OnInit {
   }
 
   toggleTodo(id: string): void {
-    this.todoService.toggleTodo(id);
+    this.todoService.toggleTodoItem(id);
   }
 
   deleteTodo(id: string): void {
@@ -59,7 +67,7 @@ export class TodoComponent implements OnInit {
 
   addOrUpdate(todo: Todo): void {
     if (todo.id) {
-      this.todoService.updateTitle(todo.id, todo.title);
+      this.todoService.updateTodoItem(todo.id, todo.title, todo.workplaceIndex);
     } else {
       todo.completed = false;
       this.todoService.addTodoItem(todo);
@@ -70,5 +78,9 @@ export class TodoComponent implements OnInit {
 
   clearAll(): void {
     this.todoService.removeAllTodoItems();
+  }
+
+  notifyToLongPress() {
+    this.toastService.showSimpleToast("TAP AND HOLD TO CLEAR ALL");
   }
 }

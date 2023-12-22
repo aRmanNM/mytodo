@@ -11,6 +11,8 @@ import { TimerItem } from "../core/models/timerItem";
 import { PrettifyMSPipe } from "../shared/pipes/prettify-ms.pipe";
 import { DurationPipe } from "../shared/pipes/duration.pipe";
 
+import { defaultWorkplaces } from "../core/models/workplaces";
+
 var _ = require("lodash");
 
 @Component({
@@ -28,6 +30,8 @@ export class WorklogComponent implements OnInit {
   timerOpen = false;
 
   timerItem: TimerItem = null;
+
+  workplaces = defaultWorkplaces;
 
   constructor(
     private worklogService: WorklogService,
@@ -70,9 +74,13 @@ export class WorklogComponent implements OnInit {
     this.showDialog();
   }
 
-  addOrUpdateTitle(worklog: Worklog): void {
+  addOrUpdate(worklog: Worklog): void {
     if (worklog.id) {
-      this.worklogService.updateTitle(worklog.id, worklog.title);
+      this.worklogService.updateWorklogItem(
+        worklog.id,
+        worklog.title,
+        worklog.workplaceIndex
+      );
     } else {
       this.worklogService.addWorklog(worklog);
     }

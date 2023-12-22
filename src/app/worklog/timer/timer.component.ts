@@ -35,6 +35,7 @@ export class TimerComponent implements OnInit {
       recordType: RecordType.Worklog,
       title: "",
       createdAt: Date.now(),
+      workplaceIndex: null
     };
 
     this.onStop.emit(worklog);

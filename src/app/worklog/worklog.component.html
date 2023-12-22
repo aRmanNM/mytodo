@@ -25,6 +25,13 @@
             <span [text]="item.title"></span>
           </FormattedString>
         </Label>
+        <Label
+          class="label-workplace"
+          *ngIf="item.workplaceIndex != 0"
+          [text]="workplaces[item.workplaceIndex]"
+          textAlignment="center"
+          textWrap="true"
+        ></Label>
       </StackLayout>
     </ng-template>
   </ListView>
@@ -62,7 +69,7 @@
   [model]="worklog"
   [recordType]="recordType"
   (onCancel)="closeDialog()"
-  (onSubmit)="addOrUpdateTitle($event)"
+  (onSubmit)="addOrUpdate($event)"
 ></app-modal>
 
 <app-timer

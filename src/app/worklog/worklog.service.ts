@@ -13,6 +13,8 @@ import { TimerService } from "../core/services/timer.service";
 import { TimerItem } from "../core/models/timerItem";
 import { TimerForegroundService } from "../core/services/timer-foreground-service.android";
 
+import { defaultWorkplaces } from "../core/models/workplaces";
+
 @Injectable()
 export class WorklogService {
   private readonly _worklogItems = new BehaviorSubject<Worklog[]>([]);
@@ -41,9 +43,12 @@ export class WorklogService {
     this._worklogItems.next(worklogItems);
   }
 
-  updateTitle(id: string, title: string) {
+  updateWorklogItem(id: string, title: string, workplaceIndex: number) {
     let worklogItem: Worklog = this.storageService.get(id);
+
     worklogItem.title = title;
+    worklogItem.workplaceIndex = workplaceIndex;
+
     this.storageService.update(id, worklogItem);
     this.getWorklogItems();
   }
@@ -83,6 +88,7 @@ export class WorklogService {
           worklog.end.toString(),
           DateTimeTransformType.Time
         ),
+        workplace: defaultWorkplaces[worklog.workplaceIndex],
         title: worklog.title,
       };
 

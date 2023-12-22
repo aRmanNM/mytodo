@@ -24,16 +24,19 @@ export class TodoService {
     this.getTodoItems();
   }
 
-  toggleTodo(id: string) {
+  toggleTodoItem(id: string) {
     let todoItem: Todo = this.storageService.get(id);
     todoItem.completed = !todoItem.completed;
     this.storageService.update(id, todoItem);
     this.getTodoItems();
   }
 
-  updateTitle(id: string, title: string) {
+  updateTodoItem(id: string, title: string, workplaceIndex: number) {
     let todoItem: Todo = this.storageService.get(id);
+
     todoItem.title = title;
+    todoItem.workplaceIndex = workplaceIndex;
+
     this.storageService.update(id, todoItem);
     this.getTodoItems();
   }

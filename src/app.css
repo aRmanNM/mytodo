@@ -1,18 +1,24 @@
 @import "@nativescript/theme/css/core.css";
 @import "@nativescript/theme/css/default.css";
 
+.label {
+  font-size: 16pt;
+  margin: 0;
+  padding: 0;
+}
+
+.label-workplace {
+  color: grey;
+}
+
 .timer-label {
   font-size: 20pt;
   font-weight: bold;
 }
 
 .bar-label {
-  font-size: 26pt;
+  font-size: 20pt;
   color: grey;
-}
-
-.label {
-  font-size: 16pt;
 }
 
 .fab-button {

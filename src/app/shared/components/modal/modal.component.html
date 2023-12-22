@@ -10,5 +10,9 @@
       (returnPress)="addOrEdit()"
     >
     </TextField>
+    <ListPicker
+      [items]="workplaces"
+      [(ngModel)]="workplaceIndex"
+    ></ListPicker>
   </StackLayout>
 </AbsoluteLayout>

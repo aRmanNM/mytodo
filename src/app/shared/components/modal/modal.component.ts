@@ -15,12 +15,16 @@ import {
 } from "@nativescript/core";
 import { RecordType } from "~/app/core/enums/record-type";
 import { Base } from "~/app/core/models/base";
+import { defaultWorkplaces } from "~/app/core/models/workplaces";
 
 @Component({
   selector: "app-modal",
   templateUrl: "modal.component.html",
 })
 export class ModalComponent implements OnInit {
+  workplaces: string[] = defaultWorkplaces;
+  workplaceIndex: number = 0;
+
   @Input() model: Base;
   @Input() recordType: RecordType;
 
@@ -40,6 +44,7 @@ export class ModalComponent implements OnInit {
   ngOnInit() {
     if (this.model) {
       this.title = this.model.title;
+      this.workplaceIndex = this.model.workplaceIndex ?? 0;
     }
 
     if (isAndroid) {
@@ -55,12 +60,14 @@ export class ModalComponent implements OnInit {
   addOrEdit(): void {
     if (this.model) {
       this.model.title = this.title;
+      this.model.workplaceIndex = this.workplaceIndex;
     } else {
       this.model = {
         title: this.title,
         id: undefined,
         recordType: this.recordType,
         createdAt: Date.now(),
+        workplaceIndex: this.workplaceIndex,
       };
     }
 

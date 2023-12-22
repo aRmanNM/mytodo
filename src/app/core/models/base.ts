@@ -5,4 +5,5 @@ export interface Base {
   title: string;
   createdAt: EpochTimeStamp;
   recordType: RecordType;
+  workplaceIndex: number;
 }
