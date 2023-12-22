@@ -2,7 +2,7 @@ This is a simple mobile application for storing todo items and worklog records
 
 ### Todo
 
-- [ ] add support for separate work places
+- [x] ~~add support for separate work places~~ (static)
 - [x] ~~worklog timer foreground service~~
 - [ ] drag-n-drop reorder
 - [x] ~~implement toast service~~
