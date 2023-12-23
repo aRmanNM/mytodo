@@ -16,7 +16,7 @@
           </FormattedString>
         </Label>
         <Label
-          class="label-workplace"
+          class="label label-workplace"
           *ngIf="item.workplaceIndex != 0"
           [text]="workplaces[item.workplaceIndex]"
           textAlignment="center"
@@ -32,7 +32,7 @@
     text="Clr"
     rippleColor="#f1f1f1"
     class="fab-button warning"
-    (longPress)="clearAll()"
+    (doubleTap)="clearAll()"
   ></FAB>
   <FAB
     row="1"

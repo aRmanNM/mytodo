@@ -79,8 +79,4 @@ export class TodoComponent implements OnInit {
   clearAll(): void {
     this.todoService.removeAllTodoItems();
   }
-
-  notifyToLongPress() {
-    this.toastService.showSimpleToast("TAP AND HOLD TO CLEAR ALL");
-  }
 }

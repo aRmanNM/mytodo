@@ -11,12 +11,12 @@
   color: grey;
 }
 
-.timer-label {
+.label-timer {
   font-size: 20pt;
   font-weight: bold;
 }
 
-.bar-label {
+.label-actionbar {
   font-size: 20pt;
   color: grey;
 }
