@@ -21,8 +21,7 @@ var _ = require("lodash");
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorklogComponent implements OnInit {
-  title = "WORKLOG";
-  stat: string = "";
+  title;
   recordType: RecordType = RecordType.Worklog;
   worklogItems: Worklog[];
   worklog: Worklog;
@@ -43,12 +42,16 @@ export class WorklogComponent implements OnInit {
   ngOnInit() {
     this.worklogService.worklogItems$.subscribe((res) => {
       this.worklogItems = res;
-      this.stat = this.prettifyMSPipe.transform(
-        res.reduce(
-          (n, { end, start }) => n + this.durationPipe.transform(start, end),
-          0
-        )
-      );
+      if (res.length > 0) {
+        this.title = `WORKLOG (${this.prettifyMSPipe.transform(
+          res.reduce(
+            (n, { end, start }) => n + this.durationPipe.transform(start, end),
+            0
+          )
+        )})`;
+      } else {
+        this.title = "WORKLOG";
+      }
     });
 
     this.worklogService.timerItem$.subscribe((res) => {
@@ -101,6 +104,7 @@ export class WorklogComponent implements OnInit {
 
   showDialog() {
     this.dialogOpen = true;
+    this.title = "EDIT";
   }
 
   closeDialog() {
@@ -113,6 +117,7 @@ export class WorklogComponent implements OnInit {
 
   showTimer() {
     this.timerOpen = true;
+    this.title = "TIMER";
     this.worklogService.startTimer();
   }
 

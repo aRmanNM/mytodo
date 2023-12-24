@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { Todo } from "../core/models/todo";
 import { registerElement } from "@nativescript/angular";
 import { TodoService } from "./todo.service";
-import { ToastService } from "../core/services/toast.service";
 import { RecordType } from "../core/enums/record-type";
 registerElement(
   "Fab",
@@ -16,8 +15,7 @@ import { defaultWorkplaces } from "../core/models/workplaces";
   templateUrl: "todo.component.html",
 })
 export class TodoComponent implements OnInit {
-  title = "TODO";
-  stat: string;
+  title;
   recordType: RecordType = RecordType.Todo;
   todoItems: Todo[];
   todo: Todo;
@@ -25,20 +23,17 @@ export class TodoComponent implements OnInit {
 
   workplaces = defaultWorkplaces;
 
-  constructor(
-    private todoService: TodoService,
-    private toastService: ToastService
-  ) {}
+  constructor(private todoService: TodoService) {}
 
   ngOnInit() {
     this.todoService.todoItems$.subscribe((res) => {
       this.todoItems = res;
       if (res.length > 0) {
-        this.stat = `${res.filter((value) => value.completed).length}/${
+        this.title = `TODO (${res.filter((value) => value.completed).length}/${
           res.length
-        }`;
+        })`;
       } else {
-        this.stat = null;
+        this.title = "TODO";
       }
     });
   }
@@ -58,6 +53,7 @@ export class TodoComponent implements OnInit {
 
   showDialog() {
     this.dialogOpen = true;
+    this.title = "EDIT";
   }
 
   closeDialog() {
