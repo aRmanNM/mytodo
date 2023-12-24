@@ -8,7 +8,7 @@ export class ToastService {
 
   showSimpleToast(message: string): void {
     new Toasty({
-      text: message,
+      text: message ?? "INTERNAL ERROR OCCURRED",
       //   backgroundColor: new Color("white"),
       //   textColor: new Color("black"),
       //   tapToDismiss: true

@@ -69,7 +69,7 @@ export class WorklogService {
     this.getWorklogItems();
   }
 
-  exportWorklogs(worklogs: Worklog[]) {
+  async exportWorklogs(worklogs: Worklog[]) {
     if (worklogs.length == 0) return;
 
     let exportModel: any[] = [];
@@ -95,20 +95,25 @@ export class WorklogService {
       exportModel.push(model);
     });
 
-    var res = this.fileService.exportCSV(exportModel);
-    if (res) {
-      this.toastService.showSimpleToast("DONE");
-    } else {
-      this.toastService.showSimpleToast("FAILED");
+    try {
+      await this.fileService.exportCSV(exportModel);
+      this.toastService.showSimpleToast("DONE. SAVED TO DOCUMENTS FOLDER");
+    } catch (error) {
+      this.toastService.showSimpleToast(error.message);
     }
   }
 
   // timer functions
   //
 
-  startTimer() {
-    this.timerService.startTimerForegroundService();
-    this.subscribeTimer();
+  async startTimer() {
+    try {
+      await this.timerService.startTimerForegroundService();
+      this.subscribeTimer();
+    } catch (error) {
+      this.toastService.showSimpleToast(error.message);
+      throw error;
+    }
   }
 
   stopTimer() {

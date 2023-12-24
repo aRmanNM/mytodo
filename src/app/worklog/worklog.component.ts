@@ -115,10 +115,10 @@ export class WorklogComponent implements OnInit {
   // timer trigger
   //
 
-  showTimer() {
+  async showTimer() {
+    await this.worklogService.startTimer();
     this.timerOpen = true;
     this.title = "TIMER";
-    this.worklogService.startTimer();
   }
 
   closeTimer(worklog: Worklog) {

@@ -8,26 +8,54 @@ import * as permission from "nativescript-permissions";
 export class FileService {
   constructor() {}
 
-  exportCSV(model: any): boolean {
+  async exportCSV(model: any) {
     if (isAndroid) {
-      permission.requestPermission(
+      await permission.requestPermission(
         permission.PERMISSIONS.WRITE_EXTERNAL_STORAGE
       );
 
       const csvConfig = mkConfig({ useKeysAsHeaders: true });
       const csv = generateCsv(csvConfig)(model);
       const fileName = `worklog-export-${moment(new Date()).format(
-        "YYYY-MM-DD-HH-MM"
+        "YYYY-MM-DD-HH-mm"
       )}.csv`;
 
       this.writeToFile("/Documents", fileName, asString(csv));
-      return true;
+    } else {
+      throw Error("PLATFORM NOT SUPPORTED");
     }
-
-    return false;
   }
 
   writeToFile(folderName, fileName, text) {
+    const storages = this.getStorages();
+
+    for (const storage of storages) {
+      if (!storage.exists()) {
+        continue;
+      }
+
+      const file = new java.io.File(storage + folderName + "/" + fileName);
+      const folder = new java.io.File(storage + folderName);
+
+      console.log(folder.getPath());
+
+      if (!folder.exists()) {
+        folder.mkdirs();
+        folder.setReadable(true);
+        folder.setWritable(true);
+      }
+
+      if (file.createNewFile()) {
+        const myWriter = new java.io.FileWriter(file);
+        myWriter.write(text);
+        myWriter.close();
+      }
+
+      break; // do not continue if successful at any stage
+    }
+  }
+
+  getStorages(): java.io.File[] {
     const filesDir = Utils.android
       .getApplicationContext()
       .getExternalFilesDir(null)
@@ -37,51 +65,6 @@ export class FileService {
     );
     const storage1 = new java.io.File("/storage/emulated/0");
     const storage2 = new java.io.File("/sdcard");
-    let file;
-
-    if (text == null) {
-      text = "";
-    }
-
-    if (storage0.exists()) {
-      file = new java.io.File(storage0 + folderName + "/" + fileName);
-      const folder = new java.io.File(storage0 + folderName);
-
-      if (!folder.exists()) {
-        folder.mkdirs();
-        folder.setReadable(true);
-        folder.setWritable(true);
-      }
-    } else if (storage1.exists()) {
-      file = new java.io.File(storage1 + folderName + "/" + fileName);
-      const folder = new java.io.File(storage1 + folderName);
-
-      if (!folder.exists()) {
-        folder.mkdirs();
-        folder.setReadable(true);
-        folder.setWritable(true);
-      }
-    } else if (storage2.exists()) {
-      file = new java.io.File(storage2 + folderName + "/" + fileName);
-      const folder = new java.io.File(storage2 + folderName);
-
-      if (!folder.exists()) {
-        folder.mkdirs();
-        folder.setReadable(true);
-        folder.setWritable(true);
-      }
-    } else {
-      return false;
-    }
-
-    if (file.createNewFile()) {
-      const myWriter = new java.io.FileWriter(file);
-      myWriter.write(text);
-      myWriter.close();
-
-      return true;
-    } else {
-      return false;
-    }
+    return [storage0, storage1, storage2]; // order is important
   }
 }
